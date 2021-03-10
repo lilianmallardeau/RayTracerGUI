@@ -27,3 +27,11 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::on_action_New_Project_triggered()
+{
+    scene = new Scene(Camera(Point3D(0, 0, 10), Point3D(0, 0, -1), Vector3D(0, 1, 0), Vector3D(1, 0, 0)), Light(Point3D(0, 10, 0)));
+    scene->render(1920, 1080, "scene.png");
+    QPixmap img("scene.png");
+    ui->PicturePreview->setPixmap(img);
+}
