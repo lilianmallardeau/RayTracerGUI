@@ -9,16 +9,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     QPixmap img("/home/vivien/taf/LOA/Projet/RayTracerGUI/Assets/wallpaper.jpg");
-    QPixmap sImg = img.scaled(ui->PicturePreview->width(), ui->PicturePreview->height(), Qt::KeepAspectRatio);
 
+    // Essais pour resize l'image à la bonne taille
+    //QPixmap sImg = img.scaled(ui->PicturePreview->width(), ui->PicturePreview->height(), Qt::KeepAspectRatio);
     // qDebug() << "PicturePreview size : " << ui->PicturePreview->width() << ", " << ui->PicturePreview->height();
     // qDebug() << "Image size : " << img.width() << ", " << img.height();
     // qDebug() << "Scaled image size : " << sImg.width() << ", " << sImg.height();
 
     //ui->PicturePreview->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);  <- that's the right one. now done from designer tab directly.
-    ui->PicturePreview->setPixmap(img);
     //ui->PicturePreview->resize(ui->PicturePreview->pixmap(Qt::ReturnByValue).size());
     //ui->PicturePreview->setScaledContents(true);
+
+    ui->PicturePreview->setPixmap(img);
 }
 
 MainWindow::~MainWindow()
