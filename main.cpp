@@ -8,6 +8,7 @@
 
 int main(int argc, char *argv[])
 {
+    /*
     Camera cam(Point3D(0, 0, 25), Point3D(0), Point3D(0, 1, 0));
     Light light(Point3D(0, 4.5, 10));
     Scene scene(cam, light);
@@ -44,7 +45,7 @@ int main(int argc, char *argv[])
 
     scene.background = Color(100);
     scene.render(1000, 1000, "image.png");
-
+       */
 
     QApplication a(argc, argv);
     MainWindow w;
