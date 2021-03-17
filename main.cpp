@@ -3,6 +3,7 @@
 #include "src/include/objects.h"
 #include "src/include/environment.h"
 #include "mainwindow.h"
+#include "widgets/widgets.h"
 
 #include <QApplication>
 
@@ -47,10 +48,10 @@ int main(int argc, char *argv[])
     scene.render(1000, 1000, "image.png");
        */
 
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    return a.exec();
-
-    return 0;
+    QApplication app(argc, argv);
+    MainWindow window;
+    window.show();
+    CameraPropertiesWidget a;
+    a.show();
+    return app.exec();
 }

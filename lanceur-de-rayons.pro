@@ -24,9 +24,13 @@ SOURCES += \
     src/utils/Color.cpp \
     src/utils/Material.cpp \
     src/utils/MathTools.cpp \
-    src/utils/Vector3D.cpp
+    src/utils/Vector3D.cpp \
+    widgets/floatedit.cpp \
+    widgets/vectorentrywidget.cpp \
+    widgets/camerapropertieswidget.cpp
 
 HEADERS += \
+    camerapropertieswidget.h \
     mainwindow.h \
     src/environment/Camera.h \
     src/environment/Light.h \
@@ -45,7 +49,11 @@ HEADERS += \
     src/utils/Color.h \
     src/utils/Material.h \
     src/utils/MathTools.h \
-    src/utils/Vector3D.h
+    src/utils/Vector3D.h \
+    widgets/floatedit.h \
+    widgets/vectorentrywidget.h \
+    widgets/camerapropertieswidget.h \
+    widgets/widgets.h
 
 FORMS += \
     mainwindow.ui
