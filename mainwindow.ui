@@ -23,7 +23,7 @@
       <widget class="QWidget" name="verticalLayoutWidget">
        <layout class="QVBoxLayout" name="EditorLayout">
         <item>
-         <widget class="QListWidget" name="SceneList">
+         <widget class="QTreeView" name="SceneList">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
             <horstretch>0</horstretch>
