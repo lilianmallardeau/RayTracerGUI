@@ -1,8 +1,7 @@
 #include "camerapropertieswidget.h"
 
-CameraPropertiesWidget::CameraPropertiesWidget(QWidget *parent) : QWidget(parent)
+CameraPropertiesWidget::CameraPropertiesWidget(QWidget *parent) : PropertiesEditorWidget(parent)
 {
-    layout = new QFormLayout(this);
     layout->addRow("Position", &position);
     layout->addRow("Direction", &direction);
     layout->addRow("Up", &up);

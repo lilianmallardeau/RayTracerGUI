@@ -26,6 +26,7 @@ SOURCES += \
     src/utils/MathTools.cpp \
     src/utils/Vector3D.cpp \
     widgets/floatedit.cpp \
+    widgets/propertieseditorwidget.cpp \
     widgets/vectorentrywidget.cpp \
     widgets/camerapropertieswidget.cpp
 
@@ -51,6 +52,7 @@ HEADERS += \
     src/utils/MathTools.h \
     src/utils/Vector3D.h \
     widgets/floatedit.h \
+    widgets/propertieseditorwidget.h \
     widgets/vectorentrywidget.h \
     widgets/camerapropertieswidget.h \
     widgets/widgets.h
