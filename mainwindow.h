@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <list>
+#include <QStandardItemModel>
 #include "src/include/utils.h"
 #include "src/include/objects.h"
 #include "src/include/environment.h"
@@ -22,9 +23,12 @@ public:
 private slots:
     void on_action_New_Project_triggered();
 
+    void on_actionNewSphere_triggered();
+
 private:
     // GUI
     Ui::MainWindow *ui;
+    QStandardItemModel* model1;
 
     // RTX
     Scene* scene = nullptr;
