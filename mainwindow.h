@@ -29,12 +29,21 @@ private:
     // GUI
     Ui::MainWindow *ui;
     QStandardItemModel* model1;
+    QStandardItemModel* sceneTreeViewModel;
 
     // RTX
     Scene* scene = nullptr;
 
     /** Materials */
     std::list<Material> materials;
+
+//private slots:
+    void newSphere();
+    void newPlane();
+    void newQuad();
+    void newCube();
+
+    void BuildTreeViewModel();
 
 };
 #endif // MAINWINDOW_H

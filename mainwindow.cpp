@@ -73,3 +73,54 @@ void MainWindow::on_actionNewSphere_triggered()
         ui->PicturePreview->setPixmap(img);
     }
 }
+
+
+
+void MainWindow::newSphere() {
+    Sphere* sphere = new Sphere(0, 1);
+    sphere->name = "New sphere";
+    scene->addObject(sphere);
+}
+
+void MainWindow::newPlane() {
+    Plane* plane = new Plane(0, Vector3D::k);
+    plane->name = "New plane";
+    scene->addObject(plane);
+}
+
+void MainWindow::newQuad() {
+    Quad* quad = new Quad(0, Vector3D::i, Vector3D::j);
+    quad->name = "New quad";
+    scene->addObject(quad);
+}
+
+void MainWindow::newCube() {
+    Cube* cube = new Cube(0, Vector3D::i, Vector3D::j, Vector3D::k);
+    cube->name = "New cube";
+    scene->addObject(cube);
+}
+
+void MainWindow::BuildTreeViewModel() {
+    free(sceneTreeViewModel);
+    sceneTreeViewModel = new QStandardItemModel();
+    QStandardItem sceneItem(QIcon("medias/scene.png"), "Scene");
+
+    // Adding camera
+    QStandardItem camera(QIcon("medias/camera.png"), "Camera");
+    sceneItem.appendRow(&camera);
+
+    // Adding light
+    QStandardItem light(QIcon("medias/light.png"), "Light");
+    sceneItem.appendRow(&light);
+
+    // Adding objects
+    for (Object* obj : scene->objects) {
+        sceneItem.appendRow(new QStandardItem(QIcon("medias/object.png"), QString::fromStdString(obj->name)));
+    }
+    sceneTreeViewModel->appendRow(&sceneItem);
+    ui->SceneList->setModel(sceneTreeViewModel);
+}
+
+
+
+
