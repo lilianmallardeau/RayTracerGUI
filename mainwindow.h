@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <list>
 #include "src/include/utils.h"
 #include "src/include/objects.h"
 #include "src/include/environment.h"
@@ -27,6 +28,9 @@ private:
 
     // RTX
     Scene* scene = nullptr;
+
+    /** Materials */
+    std::list<Material> materials;
 
 };
 #endif // MAINWINDOW_H
