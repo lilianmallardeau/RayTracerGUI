@@ -2,48 +2,39 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <widgets/vectorentrywidget.h>
-#include <QStringListModel>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
+    // Connection signal / slot
+    connect(this, SIGNAL(sceneModified()), this, SLOT(BuildTreeViewModel()));
+    connect(this, SIGNAL(sceneModified()), this, SLOT(renderPreview()));
+    connect(this, SIGNAL(objectModified()), this, SLOT(renderPreview()));
+    connect(ui->actionNewCube, SIGNAL(triggered()), this, SLOT(newCube()));
+    connect(ui->actionNewSphere, SIGNAL(triggered()), this, SLOT(newSphere()));
+    connect(ui->actionNewPlane, SIGNAL(triggered()), this, SLOT(newPlane()));
+    connect(ui->actionNewQuad, SIGNAL(triggered()), this, SLOT(newQuad()));
+
+
     QPixmap img("/home/vivien/taf/LOA/Projet/RayTracerGUI/Assets/wallpaper.jpg");
     ui->PicturePreview->setPixmap(img);
 
-    model1 = new QStandardItemModel();
-
-    QStandardItem* item0 = new QStandardItem(QIcon("test.png"), "1 first item");
-    QStandardItem* item1 = new QStandardItem(QIcon("test.png"), "2 second item");
-    QStandardItem* item3 = new QStandardItem(QIcon("test.png"), "3 third item");
-    QStandardItem* item4 = new QStandardItem("4 forth item");
-
-    model1->appendRow(item0);
-    item0->appendRow(item3);
-    item0->appendRow(item4);
-    model1->appendRow(item1);
-
-    ui->SceneList->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    ui->SceneList->setModel(model1);
+    // Scene & material views
+    sceneTreeViewModel = new QStandardItemModel();
+    ui->SceneList->setEditTriggers(QAbstractItemView::NoEditTriggers); // TODO remove this
     ui->SceneList->setHeaderHidden(true);
-    ui->SceneList->expandAll();
-    //ui->SceneList->setRootIsDecorated(false);
+    // ui->SceneList->setRootIsDecorated(false);
+    ui->SceneList->setModel(sceneTreeViewModel);
 
-    QStringListModel* model2;
-
-    // Create model
-    model2 = new QStringListModel(this);
-
-    // Make data
+    materialViewModel = new QStringListModel(this);
     QStringList List;
     List << "Clair de Lune" << "Reverie" << "Prelude";
-
-    // Populate our model
-    model2->setStringList(List);
-
-    // Glue model and view together
+    materialViewModel->setStringList(List);
     ui->MaterialList->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    ui->MaterialList->setModel(model2);
+    ui->MaterialList->setHeaderHidden(true);
+    // ui->MaterialList->setRootIsDecorated(false);
+    ui->MaterialList->setModel(materialViewModel);
 
 
     //ui->test = new VectorEntryWidget(this);
@@ -60,19 +51,18 @@ void MainWindow::on_action_New_Project_triggered()
     scene->render(1920, 1080, "scene.png");
     QPixmap img("scene.png");
     ui->PicturePreview->setPixmap(img);
+    emit sceneModified();
 }
 
-void MainWindow::on_actionNewSphere_triggered()
-{
-    if (scene) {
-        scene->addObject(new Sphere(Point3D(0, 0, 0), 5));
-        QStandardItem *newItem = new QStandardItem("Sphere");
-        model1->appendRow(newItem);
-        scene->render(1920, 1080, "scene.png");
-        QPixmap img("scene.png");
-        ui->PicturePreview->setPixmap(img);
-    }
-}
+//void MainWindow::on_actionNewSphere_triggered()
+//{
+//    if (scene) {
+//        scene->addObject(new Sphere(Point3D(0, 0, 0), 5));
+//        QStandardItem *newItem = new QStandardItem("Sphere");
+//        model1->appendRow(newItem);
+//        renderDisplay();
+//    }
+//}
 
 
 
@@ -80,47 +70,52 @@ void MainWindow::newSphere() {
     Sphere* sphere = new Sphere(0, 1);
     sphere->name = "New sphere";
     scene->addObject(sphere);
+    emit sceneModified();
 }
 
 void MainWindow::newPlane() {
     Plane* plane = new Plane(0, Vector3D::k);
     plane->name = "New plane";
     scene->addObject(plane);
+    emit sceneModified();
 }
 
 void MainWindow::newQuad() {
     Quad* quad = new Quad(0, Vector3D::i, Vector3D::j);
     quad->name = "New quad";
     scene->addObject(quad);
+    emit sceneModified();
 }
 
 void MainWindow::newCube() {
     Cube* cube = new Cube(0, Vector3D::i, Vector3D::j, Vector3D::k);
     cube->name = "New cube";
     scene->addObject(cube);
+    emit sceneModified();
 }
 
 void MainWindow::BuildTreeViewModel() {
-    free(sceneTreeViewModel);
-    sceneTreeViewModel = new QStandardItemModel();
-    QStandardItem sceneItem(QIcon("medias/scene.png"), "Scene");
+    sceneTreeViewModel->clear();
+    QStandardItem *sceneItem = new QStandardItem(QIcon("medias/scene.png"), "Scene");
 
     // Adding camera
-    QStandardItem camera(QIcon("medias/camera.png"), "Camera");
-    sceneItem.appendRow(&camera);
+    QStandardItem *camera = new QStandardItem(QIcon("medias/camera.png"), "Camera");
+    sceneItem->appendRow(camera);
 
     // Adding light
-    QStandardItem light(QIcon("medias/light.png"), "Light");
-    sceneItem.appendRow(&light);
+    QStandardItem *light = new QStandardItem(QIcon("medias/light.png"), "Light");
+    sceneItem->appendRow(light);
 
     // Adding objects
     for (Object* obj : scene->objects) {
-        sceneItem.appendRow(new QStandardItem(QIcon("medias/object.png"), QString::fromStdString(obj->name)));
+        sceneItem->appendRow(new QStandardItem(QIcon("medias/object.png"), QString::fromStdString(obj->name)));
     }
-    sceneTreeViewModel->appendRow(&sceneItem);
-    ui->SceneList->setModel(sceneTreeViewModel);
+    sceneTreeViewModel->appendRow(sceneItem);
+    ui->SceneList->expandAll();
 }
 
-
-
+void MainWindow::renderPreview() {
+    scene->render(defaultWidth, defaultHeight, "display.png");
+    ui->PicturePreview->setPixmap(QPixmap("display.png"));
+}
 

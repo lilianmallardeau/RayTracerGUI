@@ -7,6 +7,7 @@
 #include "src/include/utils.h"
 #include "src/include/objects.h"
 #include "src/include/environment.h"
+#include <QStringListModel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,13 +24,15 @@ public:
 private slots:
     void on_action_New_Project_triggered();
 
-    void on_actionNewSphere_triggered();
+    //void on_actionNewSphere_triggered();
 
 private:
     // GUI
     Ui::MainWindow *ui;
-    QStandardItemModel* model1;
+    //QStandardItemModel* model1;
     QStandardItemModel* sceneTreeViewModel;
+    QStringListModel* materialViewModel;
+    int defaultWidth = 720, defaultHeight = 480;
 
     // RTX
     Scene* scene = nullptr;
@@ -37,13 +40,18 @@ private:
     /** Materials */
     std::list<Material> materials;
 
-//private slots:
+public slots:
     void newSphere();
     void newPlane();
     void newQuad();
     void newCube();
 
-    void BuildTreeViewModel();
+    void BuildTreeViewModel(); // Call when object is added / removed
+    void renderPreview(); // Call when object transform / material is modified
+
+signals:
+    void sceneModified();
+    void objectModified();
 
 };
 #endif // MAINWINDOW_H
