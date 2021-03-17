@@ -3,9 +3,10 @@
 
 #include <QWidget>
 #include <QFormLayout>
+#include "propertieseditorwidget.h"
 #include "vectorentrywidget.h"
 
-class CameraPropertiesWidget : public QWidget
+class CameraPropertiesWidget : public PropertiesEditorWidget
 {
     Q_OBJECT
 public:
@@ -14,8 +15,6 @@ public:
 private:
     VectorEntryWidget position, direction, up, right;
     FloatEdit screen_dist, width, height;
-
-    QFormLayout *layout;
 
 signals:
 
