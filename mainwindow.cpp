@@ -115,6 +115,7 @@ void MainWindow::BuildTreeViewModel() {
 
     // Adding objects
     for (Object* obj : scene->objects) {
+        QStandardItem *item = new QStandardItem(QIcon("medias/object.png"), QString::fromStdString(obj->name));
         sceneItem->appendRow(new QStandardItem(QIcon("medias/object.png"), QString::fromStdString(obj->name)));
     }
     sceneTreeViewModel->appendRow(sceneItem);
@@ -196,7 +197,8 @@ void MainWindow::openSavedScene() {
 
 void MainWindow::test(const QModelIndex &index) {
     QStandardItem *item = sceneTreeViewModel->itemFromIndex(index);
-    qDebug() << item;
-    VectorEntryWidget popUp(this); // SAMARCHEPAS
-    popUp.show();
+    qDebug() << item->data();
+    //qDebug() << item;
+    //CameraPropertiesWidget *popUp = new CameraPropertiesWidget(); // SAMARCHEPAS
+    //popUp->show();
 }

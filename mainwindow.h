@@ -8,6 +8,7 @@
 #include "src/include/objects.h"
 #include "src/include/environment.h"
 #include <QStringListModel>
+#include "widgets/camerapropertieswidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

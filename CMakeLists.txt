@@ -81,6 +81,8 @@ set(PROJECT_SOURCES
         widgets/vectorentrywidget.h
         widgets/camerapropertieswidget.h
         widgets/widgets.h
+        qtCustomType/qsceneobject.h
+        qtCustomType/qsceneobject.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
