@@ -54,11 +54,13 @@ Quad Cube::get_intersected_face(Ray ray) {
 }
 
 json Cube::toJSON() {
-    return {
+    json j = Object::toJSON();
+    j.merge_patch({
         {"object", "cube"},
         {"origin", origin.toJSON()},
         {"width", width.toJSON()},
         {"height", height.toJSON()},
         {"length", length.toJSON()}
-    };
+    });
+    return j;
 }

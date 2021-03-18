@@ -16,8 +16,12 @@ class Sphere : public Object {
         Sphere(Point3D center, float radius) : center(center), radius(radius) {
             type = ObjectType::SPHERE;
         };
-        Sphere(json j) : Sphere(j["center"], j["radius"]) {};
+        Sphere(json j) : Sphere(j["center"], j["radius"]) {
+            initFromJSON(j);
+        };
         Sphere(std::string s) : Sphere(json::parse(s)) {};
+
+        NLOHMANN_DEFINE_TYPE_INTRUSIVE(Sphere, name, material, center, radius);
 
         bool is_hit(Ray ray) override;
         Point3D get_intersect(Ray ray) override;

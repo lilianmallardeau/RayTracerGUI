@@ -21,9 +21,11 @@ Vector3D Plane::get_normal(Ray ray) {
 }
 
 json Plane::toJSON() {
-    return {
+    json j = Object::toJSON();
+    j.merge_patch({
         {"object", "plane"},
         {"point", point.toJSON()},
         {"normal", normal.toJSON()}
-    };
+    });
+    return j;
 }

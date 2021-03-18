@@ -19,8 +19,12 @@ class Cube : public Object {
     public:
         Cube(Point3D origin, Vector3D width, Vector3D height, Vector3D length);
         Cube(Point3D origin, Vector3D width, Vector3D height) : Cube(origin, width, height, Vector3D::cross(width, height)) {};
-        Cube(json j) : Cube(j["origin"], j["width"], j["height"], j["length"]) {};
+        Cube(json j) : Cube(j["origin"], j["width"], j["height"], j["length"]) {
+            initFromJSON(j);
+        };
         Cube(std::string s) : Cube(json::parse(s)) {};
+
+        NLOHMANN_DEFINE_TYPE_INTRUSIVE(Cube, name, material, width, height, length);
 
         bool is_hit(Ray ray) override;
         Point3D get_intersect(Ray ray) override;
