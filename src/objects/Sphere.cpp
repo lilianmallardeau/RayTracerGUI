@@ -33,9 +33,11 @@ Vector3D Sphere::get_normal(Ray ray) {
 }
 
 json Sphere::toJSON() {
-    return {
+    json j = Object::toJSON();
+    j.merge_patch({
         {"object", "sphere"},
         {"center", center.toJSON()},
         {"radius", radius}
-    };
+    });
+    return j;
 }

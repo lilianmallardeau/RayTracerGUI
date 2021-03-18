@@ -32,10 +32,12 @@ Vector3D Quad::get_normal(Ray ray) {
 }
 
 json Quad::toJSON() {
-    return {
+    json j = Object::toJSON();
+    j.merge_patch({
         {"object", "quad"},
         {"origin", origin.toJSON()},
         {"width", width.toJSON()},
         {"height", height.toJSON()}
-    };
+    });
+    return j;
 }
