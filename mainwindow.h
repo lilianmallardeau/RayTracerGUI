@@ -51,6 +51,7 @@ public slots:
     void saveScene();
     void saveSceneAs();
     void openSavedScene();
+    void test(const QModelIndex &index);
 
 signals:
     void sceneModified();

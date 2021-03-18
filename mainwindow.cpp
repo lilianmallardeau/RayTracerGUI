@@ -13,17 +13,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     ui->setupUi(this);
 
-    // Connection signal / slot
+    /*********************** Connection signal / slot ***********************/
+    // Updating GUI
     connect(this, SIGNAL(sceneModified()), this, SLOT(BuildTreeViewModel()));
     connect(this, SIGNAL(sceneModified()), this, SLOT(renderPreview()));
     connect(this, SIGNAL(objectModified()), this, SLOT(renderPreview()));
+    connect(ui->SceneList, SIGNAL(clicked(QModelIndex)), this, SLOT(test(QModelIndex))); // Signal emited when selecting item in tree view
+
     // New object actions
     connect(ui->actionNewScene, SIGNAL(triggered()), this, SLOT(newScene()));
     connect(ui->actionNewCube, SIGNAL(triggered()), this, SLOT(newCube()));
     connect(ui->actionNewSphere, SIGNAL(triggered()), this, SLOT(newSphere()));
     connect(ui->actionNewPlane, SIGNAL(triggered()), this, SLOT(newPlane()));
     connect(ui->actionNewQuad, SIGNAL(triggered()), this, SLOT(newQuad()));
-    // connect(ui->SceneList, SIGNAL(clicked(QModelIndex)), this, SLOT()); // Signal emited when selecting item in tree view
+
     // Menu items
     connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(openSavedScene()));
     connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveScene()));
@@ -32,10 +35,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->actionRender, SIGNAL(triggered()), this, SLOT(renderScene()));
 
 
-    QPixmap img("/home/vivien/taf/LOA/Projet/RayTracerGUI/Assets/wallpaper.jpg");
-    ui->PicturePreview->setPixmap(img);
-
-    // Scene & material views
+    /*********************** Scene & material views ***********************/
     sceneTreeViewModel = new QStandardItemModel();
     ui->SceneList->setEditTriggers(QAbstractItemView::NoEditTriggers); // TODO remove this
     ui->SceneList->setHeaderHidden(true);
@@ -54,6 +54,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     //ui->test = new VectorEntryWidget(this);
 
+    QList<int> Sizes;
+    Sizes.append(0.15 * height());
+    Sizes.append(0.85 * height());
+    ui->splitter->setSizes(Sizes);
+    this->showMaximized();
     newScene();
 }
 
@@ -154,6 +159,9 @@ void MainWindow::saveSceneAs() {
         if (currentFileName == nullptr)
             currentFileName = fileName;
     }
+
+//    Deprecated because nul
+
 //    QFileDialog *dialog = new QFileDialog();
 //    dialog->setFileMode(QFileDialog::AnyFile);
 //    dialog->show();
@@ -184,4 +192,11 @@ void MainWindow::openSavedScene() {
         scene = new Scene(json_scene);
         emit sceneModified();
     }
+}
+
+void MainWindow::test(const QModelIndex &index) {
+    QStandardItem *item = sceneTreeViewModel->itemFromIndex(index);
+    qDebug() << item;
+    VectorEntryWidget popUp(this); // SAMARCHEPAS
+    popUp.show();
 }
