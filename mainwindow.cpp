@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <QFileDialog>
-#include "widgets/widgets.h"
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -193,6 +192,10 @@ void MainWindow::openSavedScene() {
         scene = new Scene(json_scene);
         emit sceneModified();
     }
+}
+
+void updatePropertiesEditorWidget() {
+
 }
 
 void MainWindow::test(const QModelIndex &index) {
