@@ -24,12 +24,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->actionNewPlane, SIGNAL(triggered()), this, SLOT(newPlane()));
     connect(ui->actionNewQuad, SIGNAL(triggered()), this, SLOT(newQuad()));
     // connect(ui->SceneList, SIGNAL(clicked(QModelIndex)), this, SLOT()); // Signal emited when selecting item in tree view
-    connect(ui->actionRender, SIGNAL(triggered()), this, SLOT(renderScene()));
-    connect(ui->actionQuit, SIGNAL(triggered()), QApplication::instance(), SLOT(quit()));
     // Menu items
     connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(openSavedScene()));
     connect(ui->actionSave_As, SIGNAL(triggered()), this, SLOT(saveScene()));
     connect(ui->actionQuit, SIGNAL(triggered()), QApplication::instance(), SLOT(quit()));
+    connect(ui->actionRender, SIGNAL(triggered()), this, SLOT(renderScene()));
 
 
     QPixmap img("/home/vivien/taf/LOA/Projet/RayTracerGUI/Assets/wallpaper.jpg");
@@ -126,16 +125,25 @@ void MainWindow::renderScene() {
 }
 
 void MainWindow::saveScene() {
-    QFileDialog *dialog = new QFileDialog();
-    dialog->setFileMode(QFileDialog::AnyFile);
-    dialog->show();
-
-    if (dialog->exec()) {
-        QString filename = dialog->selectedFiles().at(0);
-        std::ofstream file(filename.toStdString());
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save as..."), "", tr("JSON files (*.json)"));
+    if (!fileName.isEmpty()) {
+        QFileInfo info(fileName);
+        if (info.suffix() != "json")
+            fileName += ".json";
+        std::ofstream file(fileName.toStdString());
         file << std::setw(4) << scene->toJSON();
         file.close();
     }
+//    QFileDialog *dialog = new QFileDialog();
+//    dialog->setFileMode(QFileDialog::AnyFile);
+//    dialog->show();
+
+//    if (dialog->exec()) {
+//        QString filename = dialog->selectedFiles().at(0);
+//        std::ofstream file(filename.toStdString());
+//        file << std::setw(4) << scene->toJSON();
+//        file.close();
+//    }
 }
 
 void MainWindow::openSavedScene() {
