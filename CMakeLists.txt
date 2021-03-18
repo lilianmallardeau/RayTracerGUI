@@ -73,13 +73,23 @@ set(PROJECT_SOURCES
         src/utils/Serializable.cpp
         src/utils/Serializable.h
         widgets/floatedit.cpp
-        widgets/propertieseditorwidget.cpp
-        widgets/vectorentrywidget.cpp
-        widgets/camerapropertieswidget.cpp
         widgets/floatedit.h
-        widgets/propertieseditorwidget.h
+        widgets/vectorentrywidget.cpp
         widgets/vectorentrywidget.h
+        widgets/propertieseditorwidget.cpp
+        widgets/propertieseditorwidget.h
+        widgets/camerapropertieswidget.cpp
         widgets/camerapropertieswidget.h
+        widgets/lightpropertieswidget.cpp
+        widgets/lightpropertieswidget.h
+        widgets/objects/spherepropertieswidget.cpp
+        widgets/objects/spherepropertieswidget.h
+        widgets/objects/planepropertieswidget.cpp
+        widgets/objects/planepropertieswidget.h
+        widgets/objects/quadpropertieswidget.cpp
+        widgets/objects/quadpropertieswidget.h
+        widgets/objects/cubepropertieswidget.cpp
+        widgets/objects/cubepropertieswidget.h
         widgets/widgets.h
         qtCustomType/qsceneobject.h
         qtCustomType/qsceneobject.cpp
