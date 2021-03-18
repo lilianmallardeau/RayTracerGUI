@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iomanip>
 #include <nlohmann/json.hpp>
+#include "qtCustomType/qsceneobject.h"
 using json = nlohmann::json;
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -105,17 +106,29 @@ void MainWindow::BuildTreeViewModel() {
 
     // Adding camera
     QStandardItem *camera = new QStandardItem(QIcon("medias/camera.png"), "Camera");
+    QVariant bla;
+    bla.setValue(QSceneObject(ObjectTyype::CAMERA));
+    //sceneItem->setData(bla);
+    camera->setData(QVariant::fromValue<QSceneObject>(QSceneObject(ObjectTyype::CAMERA)));
     sceneItem->appendRow(camera);
 
     // Adding light
     QStandardItem *light = new QStandardItem("Light");
+    QVariant ble;
+    ble.setValue(QSceneObject(ObjectTyype::LIGHT));
+    //light->setData(ble);
+    light->setData(QVariant::fromValue<QSceneObject>(QSceneObject(ObjectTyype::LIGHT)));
     light->setIcon(QIcon("Asset/light.png"));
     sceneItem->appendRow(light);
 
     // Adding objects
     for (Object* obj : scene->objects) {
         QStandardItem *item = new QStandardItem(QIcon("medias/object.png"), QString::fromStdString(obj->name));
-        sceneItem->appendRow(new QStandardItem(QIcon("medias/object.png"), QString::fromStdString(obj->name)));
+        QVariant bli;
+        bli.setValue(QSceneObject(obj));
+        item->setData(QVariant::fromValue<QSceneObject>(QSceneObject(ObjectTyype::OBJECT)));
+        sceneItem->appendRow(item);
+        //sceneItem->appendRow(new QStandardItem(QIcon("medias/object.png"), QString::fromStdString(obj->name)));
     }
     sceneTreeViewModel->appendRow(sceneItem);
     ui->SceneList->expandAll();
@@ -200,7 +213,7 @@ void updatePropertiesEditorWidget() {
 
 void MainWindow::test(const QModelIndex &index) {
     QStandardItem *item = sceneTreeViewModel->itemFromIndex(index);
-    qDebug() << item->data();
+    qDebug() << item->data().value<QSceneObject>();
     //qDebug() << item;
     //CameraPropertiesWidget *popUp = new CameraPropertiesWidget(); // SAMARCHEPAS
     //popUp->show();

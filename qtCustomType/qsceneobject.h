@@ -3,14 +3,13 @@
 
 #include "Object.h"
 #include "Camera.h"
+#include <QMetaType>
+#include <QDebug>
 
-enum ObjectType {
-    CAMERA,
-    LIGHT,
-    PLANE,
-    QUAD,
-    CUBE,
-    SPHERE
+enum ObjectTyype {
+CAMERA,
+LIGHT,
+OBJECT
 };
 
 class QSceneObject
@@ -20,16 +19,20 @@ public:
     ~QSceneObject() = default;
     QSceneObject(const QSceneObject &) = default;
     QSceneObject &operator=(const QSceneObject &) = default;
-    QSceneObject(Object *, ObjectType type);
-    QSceneObject(ObjectType type);
+    QSceneObject(Object *);
+    QSceneObject(ObjectTyype);
 
-    ObjectType type;
+    friend QDebug operator<<(QDebug dbg, const QSceneObject &);
+
+    ObjectTyype type;
 
 
 private:
     Object *obj = nullptr;
 
 };
+
+Q_DECLARE_METATYPE(QSceneObject);
 
 
 #endif // QSCENEOBJECT_H
