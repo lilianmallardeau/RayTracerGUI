@@ -48,6 +48,7 @@ public slots:
 
     void BuildTreeViewModel(); // Call when object is added / removed
     void renderPreview(); // Call when object transform / material is modified
+    void renderScene();
 
 signals:
     void sceneModified();

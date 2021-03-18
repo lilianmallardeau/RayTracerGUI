@@ -15,7 +15,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->actionNewSphere, SIGNAL(triggered()), this, SLOT(newSphere()));
     connect(ui->actionNewPlane, SIGNAL(triggered()), this, SLOT(newPlane()));
     connect(ui->actionNewQuad, SIGNAL(triggered()), this, SLOT(newQuad()));
-
+    // connect(ui->SceneList, SIGNAL(clicked(QModelIndex)), this, SLOT()); // Signal emited when selecting item in tree view
+    connect(ui->actionRender, SIGNAL(triggered()), this, SLOT(renderScene()));
+    connect(ui->actionQuit, SIGNAL(triggered()), QApplication::instance(), SLOT(quit()));
 
     QPixmap img("/home/vivien/taf/LOA/Projet/RayTracerGUI/Assets/wallpaper.jpg");
     ui->PicturePreview->setPixmap(img);
@@ -103,7 +105,8 @@ void MainWindow::BuildTreeViewModel() {
     sceneItem->appendRow(camera);
 
     // Adding light
-    QStandardItem *light = new QStandardItem(QIcon("medias/light.png"), "Light");
+    QStandardItem *light = new QStandardItem("Light");
+    light->setIcon(QIcon("Asset/light.png"));
     sceneItem->appendRow(light);
 
     // Adding objects
@@ -117,5 +120,9 @@ void MainWindow::BuildTreeViewModel() {
 void MainWindow::renderPreview() {
     scene->render(defaultWidth, defaultHeight, "display.png");
     ui->PicturePreview->setPixmap(QPixmap("display.png"));
+}
+
+void MainWindow::renderScene() {
+
 }
 
