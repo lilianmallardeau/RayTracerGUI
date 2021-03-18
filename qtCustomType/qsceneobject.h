@@ -7,9 +7,9 @@
 #include <QDebug>
 
 enum ObjectTyype {
-CAMERA,
-LIGHT,
-OBJECT
+    CAMERA,
+    LIGHT,
+    OBJECT
 };
 
 class QSceneObject

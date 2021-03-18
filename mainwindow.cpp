@@ -106,17 +106,11 @@ void MainWindow::BuildTreeViewModel() {
 
     // Adding camera
     QStandardItem *camera = new QStandardItem(QIcon("medias/camera.png"), "Camera");
-    QVariant bla;
-    bla.setValue(QSceneObject(ObjectTyype::CAMERA));
-    //sceneItem->setData(bla);
     camera->setData(QVariant::fromValue<QSceneObject>(QSceneObject(ObjectTyype::CAMERA)));
     sceneItem->appendRow(camera);
 
     // Adding light
     QStandardItem *light = new QStandardItem("Light");
-    QVariant ble;
-    ble.setValue(QSceneObject(ObjectTyype::LIGHT));
-    //light->setData(ble);
     light->setData(QVariant::fromValue<QSceneObject>(QSceneObject(ObjectTyype::LIGHT)));
     light->setIcon(QIcon("Asset/light.png"));
     sceneItem->appendRow(light);
@@ -124,9 +118,7 @@ void MainWindow::BuildTreeViewModel() {
     // Adding objects
     for (Object* obj : scene->objects) {
         QStandardItem *item = new QStandardItem(QIcon("medias/object.png"), QString::fromStdString(obj->name));
-        QVariant bli;
-        bli.setValue(QSceneObject(obj));
-        item->setData(QVariant::fromValue<QSceneObject>(QSceneObject(ObjectTyype::OBJECT)));
+        item->setData(QVariant::fromValue<QSceneObject>(QSceneObject(obj)));
         sceneItem->appendRow(item);
         //sceneItem->appendRow(new QStandardItem(QIcon("medias/object.png"), QString::fromStdString(obj->name)));
     }
@@ -140,14 +132,13 @@ void MainWindow::renderPreview() {
 }
 
 void MainWindow::renderScene() {
-    // TODO est ce qu'on render au même endroit avec just extension différente ? Est ce qu'on redemande l'endroit à chaque fois, ou on fait un système comme pour save
     QString pictureName = QFileDialog::getSaveFileName(this, tr("Render scene..."), "", tr("PNG files (*.png)"));
     if (!pictureName.isEmpty()) {
         QFileInfo info(pictureName);
         if (info.suffix() != "png")
             pictureName += ".png";
         scene->render(1920, 1080, pictureName.toStdString());
-}
+    }
 }
 
 void MainWindow::saveScene() {
