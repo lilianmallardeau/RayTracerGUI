@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "../build-RayTracerGUI-Desktop_Qt_5_15_2_GCC_64bit-Debug/lanceur-de-rayons_autogen/include/ui_mainwindow.h"
 #include <QDebug>
 #include <QFileDialog>
 #include <iostream>
@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(this, SIGNAL(sceneModified()), this, SLOT(renderPreview()));
     connect(this, SIGNAL(objectModified()), this, SLOT(renderPreview()));
     connect(ui->SceneList, SIGNAL(clicked(QModelIndex)), this, SLOT(test(QModelIndex))); // Signal emited when selecting item in tree view
+    connect(ui->MaterialList, SIGNAL(clicked(QModelIndex)), this, SLOT(testListView(QModelIndex)));
 
     // New object actions
     connect(ui->actionNewScene, SIGNAL(triggered()), this, SLOT(newScene()));
@@ -39,25 +40,24 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     sceneTreeViewModel = new QStandardItemModel();
     ui->SceneList->setEditTriggers(QAbstractItemView::NoEditTriggers); // TODO remove this
     ui->SceneList->setHeaderHidden(true);
-    // ui->SceneList->setRootIsDecorated(false);
     ui->SceneList->setModel(sceneTreeViewModel);
 
-    materialViewModel = new QStringListModel(this);
-    QStringList List;
-    List << "Clair de Lune" << "Reverie" << "Prelude";
-    materialViewModel->setStringList(List);
+    materialViewModel = new QStandardItemModel();
     ui->MaterialList->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->MaterialList->setHeaderHidden(true);
-    // ui->MaterialList->setRootIsDecorated(false);
     ui->MaterialList->setModel(materialViewModel);
+    QStandardItem *item = new QStandardItem("chose");
+    Material mat(Color(36));
+    mat.name = "chose";
+    item->setData(QVariant::fromValue<Material>(mat));
+    materialViewModel->appendRow(item);
 
-
-    //ui->test = new VectorEntryWidget(this);
-
+    // Set splitter disposition
     QList<int> Sizes;
     Sizes.append(0.15 * height());
     Sizes.append(0.85 * height());
     ui->splitter->setSizes(Sizes);
+
     this->showMaximized();
     newScene();
 }
@@ -160,8 +160,10 @@ void MainWindow::saveSceneAs() {
         std::ofstream file(fileName.toStdString());
         file << std::setw(4) << scene->toJSON();
         file.close();
-        if (currentFileName == nullptr)
+        if (currentFileName == nullptr) {
             currentFileName = fileName;
+            this->setWindowTitle(QString(currentFileName));
+        }
     }
 
 //    Deprecated because nul
@@ -208,4 +210,9 @@ void MainWindow::test(const QModelIndex &index) {
     //qDebug() << item;
     //CameraPropertiesWidget *popUp = new CameraPropertiesWidget(); // SAMARCHEPAS
     //popUp->show();
+}
+
+void MainWindow::testListView(const QModelIndex &index) {
+    QStandardItem *item = materialViewModel->itemFromIndex(index);
+    qDebug() << QString::fromStdString(item->data().value<Material>().name);
 }
