@@ -122,7 +122,14 @@ void MainWindow::renderPreview() {
 }
 
 void MainWindow::renderScene() {
-
+    // TODO est ce qu'on render au même endroit avec just extension différente ? Est ce qu'on redemande l'endroit à chaque fois, ou on fait un système comme pour save
+    QString pictureName = QFileDialog::getSaveFileName(this, tr("Render scene..."), "", tr("PNG files (*.png)"));
+    if (!pictureName.isEmpty()) {
+        QFileInfo info(pictureName);
+        if (info.suffix() != "png")
+            pictureName += ".png";
+        scene->render(1920, 1080, pictureName.toStdString());
+}
 }
 
 void MainWindow::saveScene() {
