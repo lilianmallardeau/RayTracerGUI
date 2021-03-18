@@ -40,6 +40,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 
     //ui->test = new VectorEntryWidget(this);
+
+    newScene();
 }
 
 MainWindow::~MainWindow()
@@ -47,26 +49,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_action_New_Project_triggered()
-{
+void MainWindow::newScene() {
     scene = new Scene(Camera(Point3D(0, 0, 10), Point3D(0, 0, -1), Vector3D(0, 1, 0), Vector3D(1, 0, 0)), Light(Point3D(0, 10, 0)));
-    scene->render(1920, 1080, "scene.png");
-    QPixmap img("scene.png");
-    ui->PicturePreview->setPixmap(img);
     emit sceneModified();
 }
-
-//void MainWindow::on_actionNewSphere_triggered()
-//{
-//    if (scene) {
-//        scene->addObject(new Sphere(Point3D(0, 0, 0), 5));
-//        QStandardItem *newItem = new QStandardItem("Sphere");
-//        model1->appendRow(newItem);
-//        renderDisplay();
-//    }
-//}
-
-
 
 void MainWindow::newSphere() {
     Sphere* sphere = new Sphere(0, 1);

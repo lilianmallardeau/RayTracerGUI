@@ -21,11 +21,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-private slots:
-    void on_action_New_Project_triggered();
-
-    //void on_actionNewSphere_triggered();
-
 private:
     // GUI
     Ui::MainWindow *ui;
@@ -41,6 +36,8 @@ private:
     std::list<Material> materials;
 
 public slots:
+    void newScene();
+
     void newSphere();
     void newPlane();
     void newQuad();
