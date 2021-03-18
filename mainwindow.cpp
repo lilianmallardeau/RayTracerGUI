@@ -121,22 +121,30 @@ void MainWindow::saveScene() {
     dialog->setFileMode(QFileDialog::AnyFile);
     dialog->show();
 
-    std::ofstream file("scene.json");
-    file << std::setw(4) << scene->toJSON();
-    file.close();
+    if (dialog->exec()) {
+        QString filename = dialog->selectedFiles().at(0);
+        std::ofstream file(filename.toStdString());
+        file << std::setw(4) << scene->toJSON();
+        file.close();
+    }
 }
 
 void MainWindow::openSavedScene() {
     QFileDialog *dialog = new QFileDialog();
     dialog->setFileMode(QFileDialog::ExistingFile);
+    dialog->setNameFilter("JSON files (*.json)");
+    //dialog->setOption(QFileDialog::DontConfirmOverwrite);
     dialog->show();
 
-    std::ifstream file("scene.json");
-    json json_scene;
-    file >> json_scene;
-    file.close();
+    if (dialog->exec()) {
+        QString filename = dialog->selectedFiles().at(0);
+        std::ifstream file(filename.toStdString());
+        json json_scene;
+        file >> json_scene;
+        file.close();
 
-    scene = new Scene(json_scene);
-    emit sceneModified();
+        scene = new Scene(json_scene);
+        emit sceneModified();
+    }
 }
 
