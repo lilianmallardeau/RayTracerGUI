@@ -1,7 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
-#include <widgets/vectorentrywidget.h>
+#include <QFileDialog>
+#include "widgets/widgets.h"
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -11,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(this, SIGNAL(sceneModified()), this, SLOT(BuildTreeViewModel()));
     connect(this, SIGNAL(sceneModified()), this, SLOT(renderPreview()));
     connect(this, SIGNAL(objectModified()), this, SLOT(renderPreview()));
+    // New object actions
+    connect(ui->actionNewScene, SIGNAL(triggered()), this, SLOT(newScene()));
     connect(ui->actionNewCube, SIGNAL(triggered()), this, SLOT(newCube()));
     connect(ui->actionNewSphere, SIGNAL(triggered()), this, SLOT(newSphere()));
     connect(ui->actionNewPlane, SIGNAL(triggered()), this, SLOT(newPlane()));
@@ -18,6 +26,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // connect(ui->SceneList, SIGNAL(clicked(QModelIndex)), this, SLOT()); // Signal emited when selecting item in tree view
     connect(ui->actionRender, SIGNAL(triggered()), this, SLOT(renderScene()));
     connect(ui->actionQuit, SIGNAL(triggered()), QApplication::instance(), SLOT(quit()));
+    // Menu items
+    connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(openSavedScene()));
+    connect(ui->actionSave_As, SIGNAL(triggered()), this, SLOT(saveScene()));
+    connect(ui->actionQuit, SIGNAL(triggered()), QApplication::instance(), SLOT(quit()));
+
 
     QPixmap img("/home/vivien/taf/LOA/Projet/RayTracerGUI/Assets/wallpaper.jpg");
     ui->PicturePreview->setPixmap(img);
@@ -112,3 +125,34 @@ void MainWindow::renderScene() {
 
 }
 
+void MainWindow::saveScene() {
+    QFileDialog *dialog = new QFileDialog();
+    dialog->setFileMode(QFileDialog::AnyFile);
+    dialog->show();
+
+    if (dialog->exec()) {
+        QString filename = dialog->selectedFiles().at(0);
+        std::ofstream file(filename.toStdString());
+        file << std::setw(4) << scene->toJSON();
+        file.close();
+    }
+}
+
+void MainWindow::openSavedScene() {
+    QFileDialog *dialog = new QFileDialog();
+    dialog->setFileMode(QFileDialog::ExistingFile);
+    dialog->setNameFilter("JSON files (*.json)");
+    //dialog->setOption(QFileDialog::DontConfirmOverwrite);
+    dialog->show();
+
+    if (dialog->exec()) {
+        QString filename = dialog->selectedFiles().at(0);
+        std::ifstream file(filename.toStdString());
+        json json_scene;
+        file >> json_scene;
+        file.close();
+
+        scene = new Scene(json_scene);
+        emit sceneModified();
+    }
+}

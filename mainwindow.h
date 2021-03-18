@@ -47,6 +47,9 @@ public slots:
     void renderPreview(); // Call when object transform / material is modified
     void renderScene();
 
+    void saveScene();
+    void openSavedScene();
+
 signals:
     void sceneModified();
     void objectModified();

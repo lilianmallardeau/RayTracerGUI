@@ -30,3 +30,12 @@ Vector3D Quad::get_normal(Ray ray) {
     Vector3D normal = Vector3D::cross(width, height).normalize();
     return Plane(origin, normal).get_normal(ray);
 }
+
+json Quad::toJSON() {
+    return {
+        {"object", "quad"},
+        {"origin", origin.toJSON()},
+        {"width", width.toJSON()},
+        {"height", height.toJSON()}
+    };
+}
