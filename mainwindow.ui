@@ -159,7 +159,7 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="action_New_Project"/>
+    <addaction name="actionNewScene"/>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_As"/>
@@ -213,29 +213,44 @@
    <addaction name="actionSave"/>
    <addaction name="actionRender"/>
   </widget>
-  <action name="action_New_Project">
+  <action name="actionNewScene">
    <property name="text">
     <string>New Scene</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
    </property>
   </action>
   <action name="actionOpen">
    <property name="text">
     <string>Open Scene</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
   </action>
   <action name="actionSave">
    <property name="text">
     <string>Save Scene</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
   <action name="actionSave_As">
    <property name="text">
     <string>Save Scene As...</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
   </action>
   <action name="actionQuit">
    <property name="text">
     <string>Quit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
    </property>
   </action>
   <action name="actionZoom_In">
@@ -262,10 +277,16 @@
    <property name="text">
     <string>Render Scene</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
   </action>
   <action name="actionDelete_Object">
    <property name="text">
     <string>Delete Object</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
    </property>
   </action>
   <action name="actionNewSphere">

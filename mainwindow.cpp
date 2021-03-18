@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(this, SIGNAL(sceneModified()), this, SLOT(BuildTreeViewModel()));
     connect(this, SIGNAL(sceneModified()), this, SLOT(renderPreview()));
     connect(this, SIGNAL(objectModified()), this, SLOT(renderPreview()));
+    // New object actions
+    connect(ui->actionNewScene, SIGNAL(triggered()), this, SLOT(newScene()));
     connect(ui->actionNewCube, SIGNAL(triggered()), this, SLOT(newCube()));
     connect(ui->actionNewSphere, SIGNAL(triggered()), this, SLOT(newSphere()));
     connect(ui->actionNewPlane, SIGNAL(triggered()), this, SLOT(newPlane()));
