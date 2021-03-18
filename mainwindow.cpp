@@ -207,7 +207,7 @@ void MainWindow::openSavedScene() {
     }
 }
 
-void updatePropertiesEditorWidget() {
+void MainWindow::updatePropertiesEditorWidget() {
 
 }
 
