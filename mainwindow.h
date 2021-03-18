@@ -8,7 +8,7 @@
 #include "src/include/objects.h"
 #include "src/include/environment.h"
 #include <QStringListModel>
-#include "widgets/camerapropertieswidget.h"
+#include "widgets/widgets.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,7 +25,7 @@ public:
 private:
     // GUI
     Ui::MainWindow *ui;
-    //QStandardItemModel* model1;
+    PropertiesEditorWidget *propertiesEditor;
     QStandardItemModel* sceneTreeViewModel;
     QStringListModel* materialViewModel;
     int defaultWidth = 720, defaultHeight = 480;
@@ -52,6 +52,8 @@ public slots:
     void saveScene();
     void saveSceneAs();
     void openSavedScene();
+
+    void updatePropertiesEditorWidget();
     void test(const QModelIndex &index);
 
 signals:
