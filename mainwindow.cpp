@@ -1,7 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
-#include <widgets/vectorentrywidget.h>
+#include <QFileDialog>
+#include "widgets/widgets.h"
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -15,6 +21,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->actionNewSphere, SIGNAL(triggered()), this, SLOT(newSphere()));
     connect(ui->actionNewPlane, SIGNAL(triggered()), this, SLOT(newPlane()));
     connect(ui->actionNewQuad, SIGNAL(triggered()), this, SLOT(newQuad()));
+    // Menu items
+    connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(openSavedScene()));
+    connect(ui->actionSave_As, SIGNAL(triggered()), this, SLOT(saveScene()));
+    connect(ui->actionQuit, SIGNAL(triggered()), QApplication::instance(), SLOT(quit()));
 
 
     QPixmap img("/home/vivien/taf/LOA/Projet/RayTracerGUI/Assets/wallpaper.jpg");
@@ -103,5 +113,30 @@ void MainWindow::BuildTreeViewModel() {
 void MainWindow::renderPreview() {
     scene->render(defaultWidth, defaultHeight, "display.png");
     ui->PicturePreview->setPixmap(QPixmap("display.png"));
+}
+
+
+void MainWindow::saveScene() {
+    QFileDialog *dialog = new QFileDialog();
+    dialog->setFileMode(QFileDialog::AnyFile);
+    dialog->show();
+
+    std::ofstream file("scene.json");
+    file << std::setw(4) << scene->toJSON();
+    file.close();
+}
+
+void MainWindow::openSavedScene() {
+    QFileDialog *dialog = new QFileDialog();
+    dialog->setFileMode(QFileDialog::ExistingFile);
+    dialog->show();
+
+    std::ifstream file("scene.json");
+    json json_scene;
+    file >> json_scene;
+    file.close();
+
+    scene = new Scene(json_scene);
+    emit sceneModified();
 }
 

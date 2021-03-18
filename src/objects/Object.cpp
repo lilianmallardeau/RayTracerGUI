@@ -67,3 +67,25 @@ void Object::setShininess(float s) {
 void Object::setColor(Color c) {
     matter.color = c;
 }
+
+Object* Object::fromJSON(json obj) {
+    if (!obj.contains("object"))
+        throw UnknownObjectException();
+    if (obj["object"] == "sphere")
+        return new Sphere(obj);
+    else if (obj["object"] == "quad")
+        return new Quad(obj);
+    else if (obj["object"] == "plane")
+        return new Plane(obj);
+    else if (obj["object"] == "cube")
+        return new Cube(obj);
+    else
+        throw UnknownObjectException();
+}
+
+json Object::toJSON() {
+    return {
+        {"name", name},
+        {"matter", matter.toJSON()}
+    };
+}

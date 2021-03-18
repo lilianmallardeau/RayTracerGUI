@@ -24,6 +24,7 @@ SOURCES += \
     src/utils/Color.cpp \
     src/utils/Material.cpp \
     src/utils/MathTools.cpp \
+    src/utils/Serializable.cpp \
     src/utils/Vector3D.cpp \
     widgets/floatedit.cpp \
     widgets/propertieseditorwidget.cpp \
@@ -50,6 +51,7 @@ HEADERS += \
     src/utils/Color.h \
     src/utils/Material.h \
     src/utils/MathTools.h \
+    src/utils/Serializable.h \
     src/utils/Vector3D.h \
     widgets/floatedit.h \
     widgets/propertieseditorwidget.h \
