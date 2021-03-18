@@ -26,7 +26,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // connect(ui->SceneList, SIGNAL(clicked(QModelIndex)), this, SLOT()); // Signal emited when selecting item in tree view
     // Menu items
     connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(openSavedScene()));
-    connect(ui->actionSave_As, SIGNAL(triggered()), this, SLOT(saveScene()));
+    connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveScene()));
+    connect(ui->actionSave_As, SIGNAL(triggered()), this, SLOT(saveSceneAs()));
     connect(ui->actionQuit, SIGNAL(triggered()), QApplication::instance(), SLOT(quit()));
     connect(ui->actionRender, SIGNAL(triggered()), this, SLOT(renderScene()));
 
@@ -125,6 +126,16 @@ void MainWindow::renderScene() {
 }
 
 void MainWindow::saveScene() {
+    if (currentFileName != nullptr) {
+        std::ofstream file(currentFileName.toStdString());
+        file << std::setw(4) << scene->toJSON();
+        file.close();
+    }
+    else
+        saveSceneAs();
+}
+
+void MainWindow::saveSceneAs() {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save as..."), "", tr("JSON files (*.json)"));
     if (!fileName.isEmpty()) {
         QFileInfo info(fileName);
@@ -133,6 +144,8 @@ void MainWindow::saveScene() {
         std::ofstream file(fileName.toStdString());
         file << std::setw(4) << scene->toJSON();
         file.close();
+        if (currentFileName == nullptr)
+            currentFileName = fileName;
     }
 //    QFileDialog *dialog = new QFileDialog();
 //    dialog->setFileMode(QFileDialog::AnyFile);
@@ -159,6 +172,7 @@ void MainWindow::openSavedScene() {
         json json_scene;
         file >> json_scene;
         file.close();
+        currentFileName = filename;
 
         scene = new Scene(json_scene);
         emit sceneModified();

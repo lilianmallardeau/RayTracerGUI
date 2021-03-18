@@ -28,6 +28,7 @@ private:
     QStandardItemModel* sceneTreeViewModel;
     QStringListModel* materialViewModel;
     int defaultWidth = 720, defaultHeight = 480;
+    QString currentFileName = nullptr;
 
     // RTX
     Scene* scene = nullptr;
@@ -48,6 +49,7 @@ public slots:
     void renderScene();
 
     void saveScene();
+    void saveSceneAs();
     void openSavedScene();
 
 signals:
