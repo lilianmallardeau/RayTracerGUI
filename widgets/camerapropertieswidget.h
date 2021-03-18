@@ -1,10 +1,9 @@
 #ifndef CAMERAPROPERTIESWIDGET_H
 #define CAMERAPROPERTIESWIDGET_H
 
-#include <QWidget>
-#include <QFormLayout>
 #include "propertieseditorwidget.h"
 #include "vectorentrywidget.h"
+#include "floatedit.h"
 
 class CameraPropertiesWidget : public PropertiesEditorWidget
 {
