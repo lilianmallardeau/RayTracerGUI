@@ -6,6 +6,7 @@
 #include <QMainWindow>
 #include <QStandardItemModel>
 #include <QStringListModel>
+#include <QStatusBar>
 #include "src/include/utils.h"
 #include "src/include/objects.h"
 #include "src/include/environment.h"

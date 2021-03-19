@@ -154,8 +154,10 @@ void MainWindow::BuildMaterialViewModel() {
 }
 
 void MainWindow::renderPreview() {
+    statusBar()->showMessage("Rendering preview...");
     scene->render(defaultWidth, defaultHeight, "display.png");
     ui->PicturePreview->setPixmap(QPixmap("display.png"));
+    statusBar()->clearMessage();
 }
 
 void MainWindow::launchThreadedRenderPreview() {
