@@ -1,6 +1,6 @@
 #include "propertieseditorwidget.h"
 
-PropertiesEditorWidget::PropertiesEditorWidget(QWidget *parent, QStandardItemModel *materialModel) : QWidget(parent), materialModel(materialModel)
+PropertiesEditorWidget::PropertiesEditorWidget(QWidget *parent) : QWidget(parent)
 {
     layout = new QFormLayout(this);
 }

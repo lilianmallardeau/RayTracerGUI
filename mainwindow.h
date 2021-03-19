@@ -66,9 +66,9 @@ public slots:
     void materialSelected(const QModelIndex &index);
 
 signals:
-    void sceneModified();
-    void objectModified();
-    void materialModified();
+    void sceneModified(); // Rebuild scene treeView and render preview
+    void objectModified(); // Render preview only
+    void materialModified(); // Rebuild materials list and render preview
 
 };
 #endif // MAINWINDOW_H

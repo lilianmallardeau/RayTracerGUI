@@ -2,12 +2,11 @@
 #define PLANEPROPERTIESWIDGET_H
 
 #include <Plane.h>
-#include "../propertieseditorwidget.h"
+#include "ObjectPropertiesWidget.h"
 #include "../vectorentrywidget.h"
 #include "../floatedit.h"
-#include <QComboBox>
 
-class PlanePropertiesWidget : public PropertiesEditorWidget
+class PlanePropertiesWidget : public ObjectPropertiesWidget
 {
     Q_OBJECT
 public:
@@ -15,11 +14,10 @@ public:
 
 private:
     VectorEntryWidget *point, *normal;
-    QComboBox *materials;
-    Plane* obj;
+    Plane* plane;
 
 private slots:
-    void updateObject();
+    void updateObject() override;
 
 };
 

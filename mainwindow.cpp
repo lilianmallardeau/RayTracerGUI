@@ -116,8 +116,7 @@ void MainWindow::newMaterial() {
     Material* mat = new Material();
     mat->name = "New Material";
     materials.append(mat);
-    emit materialModified();
-    emit sceneModified(); // TODO emit only if material is assigned in scene
+    BuildMaterialViewModel();
 }
 
 void MainWindow::BuildTreeViewModel() {
@@ -305,6 +304,7 @@ void MainWindow::sceneObjectSelected(const QModelIndex &index) {
                     newPropertiesEditor = new CubePropertiesWidget((Cube*) sceneObject.obj, materialViewModel, this);
                     break;
             }
+            connect(newPropertiesEditor, SIGNAL(objectNameChanged()), this, SLOT(BuildTreeViewModel()));
             break;
     }
     connect(newPropertiesEditor, SIGNAL(objectModified()), this, SIGNAL(objectModified()));

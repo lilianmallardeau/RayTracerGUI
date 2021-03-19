@@ -2,12 +2,11 @@
 #define QUADPROPERTIESWIDGET_H
 
 #include <Quad.h>
-#include "../propertieseditorwidget.h"
+#include "ObjectPropertiesWidget.h"
 #include "../vectorentrywidget.h"
 #include "../floatedit.h"
-#include <QComboBox>
 
-class QuadPropertiesWidget : public PropertiesEditorWidget
+class QuadPropertiesWidget : public ObjectPropertiesWidget
 {
     Q_OBJECT
 public:
@@ -15,12 +14,10 @@ public:
 
 public:
     VectorEntryWidget *origin, *width, *height;
-    QComboBox *materials;
-    Quad* obj;
+    Quad* quad;
 
 private slots:
-    void updateObject();
-    void updateObjectMaterial(int index);
+    void updateObject() override;
 
 };
 

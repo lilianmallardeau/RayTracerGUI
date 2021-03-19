@@ -2,12 +2,11 @@
 #define SPHEREPROPERTIESWIDGET_H
 
 #include <Sphere.h>
-#include "../propertieseditorwidget.h"
+#include "ObjectPropertiesWidget.h"
 #include "../vectorentrywidget.h"
 #include "../floatedit.h"
-#include <QComboBox>
 
-class SpherePropertiesWidget : public PropertiesEditorWidget
+class SpherePropertiesWidget : public ObjectPropertiesWidget
 {
     Q_OBJECT
 public:
@@ -16,11 +15,10 @@ public:
 private:
     VectorEntryWidget *center;
     FloatEdit *radius;
-    QComboBox *materials;
-    Sphere* obj;
+    Sphere* sphere;
 
 private slots:
-    void updateObject();
+    void updateObject() override;
 
 };
 

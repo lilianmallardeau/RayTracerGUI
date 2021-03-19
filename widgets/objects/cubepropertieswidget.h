@@ -2,12 +2,11 @@
 #define CUBEPROPERTIESWIDGET_H
 
 #include <Cube.h>
-#include "../propertieseditorwidget.h"
+#include "ObjectPropertiesWidget.h"
 #include "../vectorentrywidget.h"
 #include "../floatedit.h"
-#include <QComboBox>
 
-class CubePropertiesWidget : public PropertiesEditorWidget
+class CubePropertiesWidget : public ObjectPropertiesWidget
 {
     Q_OBJECT
 public:
@@ -15,11 +14,10 @@ public:
 
 private:
     VectorEntryWidget *origin, *width, *height, *length;
-    QComboBox *materials;
-    Cube* obj;
+    Cube* cube;
 
 private slots:
-    void updateObject();
+    void updateObject() override;
 
 };
 
