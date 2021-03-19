@@ -44,6 +44,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->actionSave_As, SIGNAL(triggered()), this, SLOT(saveSceneAs()));
     connect(ui->actionQuit, SIGNAL(triggered()), QApplication::instance(), SLOT(quit()));
     connect(ui->actionRender, SIGNAL(triggered()), this, SLOT(renderScene()));
+    connect(ui->actionExportMaterials, SIGNAL(triggered(bool)), this, SLOT(exportMaterials()));
+    connect(ui->actionImportMaterials, SIGNAL(triggered(bool)), this, SLOT(importMaterials()));
 
 
     /*********************** Scene & material views ***********************/
@@ -232,6 +234,43 @@ void MainWindow::openSavedScene() {
 
         scene = new Scene(json_scene);
         emit sceneModified();
+    }
+}
+
+void MainWindow::exportMaterials() {
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Export as..."), "", tr("JSON files (*.json)"));
+    if (!fileName.isEmpty()) {
+        QFileInfo info(fileName);
+        if (info.suffix() != "json")
+            fileName += ".json";
+        json materials_json;
+        for (Material* mat : materials) {
+            materials_json.push_back(mat->toJSON());
+        }
+        std::ofstream file(fileName.toStdString());
+        file << std::setw(4) << materials_json;
+        file.close();
+    }
+}
+
+void MainWindow::importMaterials() {
+    QFileDialog *dialog = new QFileDialog();
+    dialog->setFileMode(QFileDialog::ExistingFile);
+    dialog->setNameFilter("JSON files (*.json)");
+    //dialog->setOption(QFileDialog::DontConfirmOverwrite);
+    dialog->show();
+
+    if (dialog->exec()) {
+        QString filename = dialog->selectedFiles().at(0);
+        std::ifstream file(filename.toStdString());
+        json json_materials;
+        file >> json_materials;
+        file.close();
+
+        for (const json& material : json_materials) {
+            materials.push_back(new Material(material));
+        }
+        emit BuildMaterialViewModel();
     }
 }
 
