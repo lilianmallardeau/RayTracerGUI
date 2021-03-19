@@ -22,9 +22,9 @@ CameraPropertiesWidget::CameraPropertiesWidget(Camera* cam, QWidget *parent) : P
     connect(direction, SIGNAL(modified(Vector3D)), this, SLOT(updateObject()));
     connect(up, SIGNAL(modified(Vector3D)), this, SLOT(updateObject()));
     connect(right, SIGNAL(modified(Vector3D)), this, SLOT(updateObject()));
-    connect(screen_dist, SIGNAL(editingFinished()), this, SLOT(updateObject()));
-    connect(width, SIGNAL(editingFinished()), this, SLOT(updateObject()));
-    connect(height, SIGNAL(editingFinished()), this, SLOT(updateObject()));
+    connect(screen_dist, SIGNAL(valueChanged(double)), this, SLOT(updateObject()));
+    connect(width, SIGNAL(valueChanged(double)), this, SLOT(updateObject()));
+    connect(height, SIGNAL(valueChanged(double)), this, SLOT(updateObject()));
 }
 
 void CameraPropertiesWidget::updateObject() {

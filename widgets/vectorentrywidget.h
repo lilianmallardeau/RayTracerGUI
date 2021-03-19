@@ -16,8 +16,6 @@ public:
 
     Vector3D toVector();
 
-    void setPlaceholders(QString x, QString y, QString z);
-
 private:
     FloatEdit *x, *y, *z;
     QHBoxLayout *layout;

@@ -32,11 +32,11 @@ MaterialPropertiesWidget::MaterialPropertiesWidget(Material *material, QWidget *
     layout->addRow("Ks", Ks);
 
     connect(name, SIGNAL(editingFinished()), this, SLOT(updateObject()));
-    connect(shininess, SIGNAL(editingFinished()), this, SLOT(updateObject()));
-    connect(alpha, SIGNAL(editingFinished()), this, SLOT(updateObject()));
-    connect(Ka, SIGNAL(editingFinished()), this, SLOT(updateObject()));
-    connect(Kd, SIGNAL(editingFinished()), this, SLOT(updateObject()));
-    connect(Ks, SIGNAL(editingFinished()), this, SLOT(updateObject()));
+    connect(shininess, SIGNAL(valueChanged(double)), this, SLOT(updateObject()));
+    connect(alpha, SIGNAL(valueChanged(double)), this, SLOT(updateObject()));
+    connect(Ka, SIGNAL(valueChanged(double)), this, SLOT(updateObject()));
+    connect(Kd, SIGNAL(valueChanged(double)), this, SLOT(updateObject()));
+    connect(Ks, SIGNAL(valueChanged(double)), this, SLOT(updateObject()));
 
     updateButtonColor(QColor(material->color.r, material->color.g, material->color.b));
 }

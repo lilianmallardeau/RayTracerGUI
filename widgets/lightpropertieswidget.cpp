@@ -9,7 +9,7 @@ LightPropertiesWidget::LightPropertiesWidget(Light* light, QWidget *parent) : Pr
     layout->addRow("Intensity", intensity);
 
     connect(position, SIGNAL(modified(Vector3D)), this, SLOT(updateObject()));
-    connect(intensity, SIGNAL(editingFinished()), this, SLOT(updateObject()));
+    connect(intensity, SIGNAL(valueChanged(double)), this, SLOT(updateObject()));
 }
 
 void LightPropertiesWidget::updateObject() {

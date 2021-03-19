@@ -1,18 +1,17 @@
 #include "floatedit.h"
-#include <QDoubleValidator>
+//#include <limits>
 
-FloatEdit::FloatEdit(QWidget *parent) : QLineEdit(parent)
+FloatEdit::FloatEdit(QWidget *parent) : QDoubleSpinBox(parent)
 {
-    QDoubleValidator *validator = new QDoubleValidator();
-    validator->setNotation(QDoubleValidator::StandardNotation);
-    validator->setLocale(QLocale::English);
-    setValidator(validator);
+    //setRange(std::numeric_limits<float>::min(), std::numeric_limits<float>::max());
+    setRange(INT_MIN, INT_MAX);
 }
 
 FloatEdit::FloatEdit(float value, QWidget *parent) : FloatEdit(parent) {
-    setText(QString::number(value));
+    setValue(value);
 }
 
 float FloatEdit::getValue() {
-    return text().toFloat();
+
+    return (float) value();
 }

@@ -2,9 +2,9 @@
 #define FLOATEDIT_H
 
 #include <QWidget>
-#include <QLineEdit>
+#include <QDoubleSpinBox>
 
-class FloatEdit : public QLineEdit
+class FloatEdit : public QDoubleSpinBox
 {
     Q_OBJECT
 public:
