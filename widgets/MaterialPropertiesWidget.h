@@ -21,6 +21,7 @@ public:
 private:
     bool autoUpdateOnSelect = false;
 
+    QLineEdit *name;
     QColorDialog *colorDialog;
     QPushButton *setColorButton;
     FloatEdit *shininess, *alpha, *Ka, *Kd, *Ks;
