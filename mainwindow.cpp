@@ -251,17 +251,16 @@ void MainWindow::sceneObjectSelected(const QModelIndex &index) {
         case ObjectTyype::OBJECT:
             switch (sceneObject.obj->type) {
                 case ObjectType::SPHERE:
-                    newPropertiesEditor = new SpherePropertiesWidget((Sphere*) sceneObject.obj, this);
-                    newPropertiesEditor->updateMaterials(materialViewModel);
+                    newPropertiesEditor = new SpherePropertiesWidget((Sphere*) sceneObject.obj, materialViewModel, this);
                     break;
                 case ObjectType::PLANE:
-                    newPropertiesEditor = new PlanePropertiesWidget((Plane*) sceneObject.obj, this);
+                    newPropertiesEditor = new PlanePropertiesWidget((Plane*) sceneObject.obj, materialViewModel, this);
                     break;
                 case ObjectType::QUAD:
-                    newPropertiesEditor = new QuadPropertiesWidget((Quad*) sceneObject.obj, this);
+                    newPropertiesEditor = new QuadPropertiesWidget((Quad*) sceneObject.obj, materialViewModel, this);
                     break;
                 case ObjectType::CUBE:
-                    newPropertiesEditor = new CubePropertiesWidget((Cube*) sceneObject.obj, this);
+                    newPropertiesEditor = new CubePropertiesWidget((Cube*) sceneObject.obj, materialViewModel, this);
                     break;
             }
             break;
@@ -280,7 +279,7 @@ void MainWindow::sceneObjectSelected(const QModelIndex &index) {
 void MainWindow::materialSelected(const QModelIndex &index) {
     QStandardItem *item = materialViewModel->itemFromIndex(index);
     Material *mat = item->data().value<Material*>();
-    PropertiesEditorWidget *newPropertiesEditor = new MaterialPropertiesWidget(mat, this);
+    PropertiesEditorWidget *newPropertiesEditor = new MaterialPropertiesWidget(mat, materialViewModel, this);
     connect(newPropertiesEditor, SIGNAL(objectModified()), this, SIGNAL(materialModified()));
     if (propertiesEditor == nullptr)
         ui->EditorLayout->replaceWidget(ui->blankWidget, propertiesEditor = newPropertiesEditor);

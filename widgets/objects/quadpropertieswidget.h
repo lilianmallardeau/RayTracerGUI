@@ -11,8 +11,7 @@ class QuadPropertiesWidget : public PropertiesEditorWidget
 {
     Q_OBJECT
 public:
-    explicit QuadPropertiesWidget(Quad* quad, QWidget *parent = nullptr);
-    void updateMaterials(QStandardItemModel *) override;
+    explicit QuadPropertiesWidget(Quad* quad, QStandardItemModel *materialModel, QWidget *parent = nullptr);
 
 public:
     VectorEntryWidget *origin, *width, *height;
@@ -21,6 +20,7 @@ public:
 
 private slots:
     void updateObject();
+    void updateObjectMaterial(int index);
 
 };
 

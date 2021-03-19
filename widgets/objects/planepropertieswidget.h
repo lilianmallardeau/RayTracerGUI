@@ -11,8 +11,7 @@ class PlanePropertiesWidget : public PropertiesEditorWidget
 {
     Q_OBJECT
 public:
-    explicit PlanePropertiesWidget(Plane* plane, QWidget *parent = nullptr);
-    void updateMaterials(QStandardItemModel *) override;
+    explicit PlanePropertiesWidget(Plane* plane, QStandardItemModel *materialModel, QWidget *parent = nullptr);
 
 private:
     VectorEntryWidget *point, *normal;

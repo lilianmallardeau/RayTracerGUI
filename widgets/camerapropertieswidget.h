@@ -11,7 +11,6 @@ class CameraPropertiesWidget : public PropertiesEditorWidget
     Q_OBJECT
 public:
     explicit CameraPropertiesWidget(Camera* cam, QWidget *parent = nullptr);
-    void updateMaterials(QStandardItemModel *) override {};
 
 private:
     VectorEntryWidget *position, *direction, *up, *right;

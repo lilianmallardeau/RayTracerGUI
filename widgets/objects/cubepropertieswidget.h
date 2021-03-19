@@ -11,8 +11,7 @@ class CubePropertiesWidget : public PropertiesEditorWidget
 {
     Q_OBJECT
 public:
-    explicit CubePropertiesWidget(Cube* cube, QWidget *parent = nullptr);
-    void updateMaterials(QStandardItemModel *) override;
+    explicit CubePropertiesWidget(Cube* cube, QStandardItemModel *materialModel, QWidget *parent = nullptr);
 
 private:
     VectorEntryWidget *origin, *width, *height, *length;

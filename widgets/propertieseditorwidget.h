@@ -9,11 +9,11 @@ class PropertiesEditorWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit PropertiesEditorWidget(QWidget *parent = nullptr);
-    virtual void updateMaterials(QStandardItemModel *) = 0;
+    explicit PropertiesEditorWidget(QWidget *parent = nullptr, QStandardItemModel *materialModel = nullptr);
 
 protected:
     QFormLayout *layout;
+    QStandardItemModel *materialModel;
 
 signals:
     void objectModified();

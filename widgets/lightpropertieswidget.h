@@ -11,7 +11,6 @@ class LightPropertiesWidget : public PropertiesEditorWidget
     Q_OBJECT
 public:
     explicit LightPropertiesWidget(Light* light, QWidget *parent = nullptr);
-    void updateMaterials(QStandardItemModel *) override {};
 
 private:
     VectorEntryWidget* position;
