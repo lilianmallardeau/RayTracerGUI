@@ -1,13 +1,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
 #include <list>
+#include <thread>
+#include <QMainWindow>
 #include <QStandardItemModel>
+#include <QStringListModel>
 #include "src/include/utils.h"
 #include "src/include/objects.h"
 #include "src/include/environment.h"
-#include <QStringListModel>
 #include "widgets/widgets.h"
 
 QT_BEGIN_NAMESPACE
@@ -30,6 +31,7 @@ private:
     QStandardItemModel* materialViewModel;
     int defaultWidth = 720, defaultHeight = 480;
     QString currentFileName = nullptr;
+    std::thread* currentPreviewRendering;
 
     // RTX
     Scene* scene = nullptr;
@@ -47,6 +49,8 @@ public slots:
 
     void BuildTreeViewModel(); // Call when object is added / removed
     void renderPreview(); // Call when object transform / material is modified
+    void launchThreadedRenderPreview();
+
     void renderScene();
 
     void saveScene();

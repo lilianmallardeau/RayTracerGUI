@@ -16,8 +16,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     /*********************** Connection signal / slot ***********************/
     // Updating GUI
     connect(this, SIGNAL(sceneModified()), this, SLOT(BuildTreeViewModel()));
-    connect(this, SIGNAL(sceneModified()), this, SLOT(renderPreview()));
-    connect(this, SIGNAL(objectModified()), this, SLOT(renderPreview()));
+    connect(this, SIGNAL(sceneModified()), this, SLOT(launchThreadedRenderPreview()));
+    connect(this, SIGNAL(objectModified()), this, SLOT(launchThreadedRenderPreview()));
     connect(ui->SceneList, SIGNAL(clicked(QModelIndex)), this, SLOT(sceneObjectSelected(QModelIndex))); // Signal emited when selecting item in tree view
     connect(ui->MaterialList, SIGNAL(clicked(QModelIndex)), this, SLOT(testListView(QModelIndex)));
 
@@ -129,6 +129,10 @@ void MainWindow::BuildTreeViewModel() {
 void MainWindow::renderPreview() {
     scene->render(defaultWidth, defaultHeight, "display.png");
     ui->PicturePreview->setPixmap(QPixmap("display.png"));
+}
+
+void MainWindow::launchThreadedRenderPreview() {
+    currentPreviewRendering = new std::thread(&MainWindow::renderPreview, this);
 }
 
 void MainWindow::renderScene() {
@@ -247,3 +251,4 @@ void MainWindow::testListView(const QModelIndex &index) {
     QStandardItem *item = materialViewModel->itemFromIndex(index);
     qDebug() << QString::fromStdString(item->data().value<Material>().name);
 }
+
