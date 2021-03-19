@@ -1,8 +1,6 @@
 #define ENABLE_PARALLEL_PREVIEW_RENDERING 1
 
 #include "mainwindow.h"
-#include "../build-RayTracerGUI-Desktop_Qt_5_15_2_GCC_64bit-Debug/lanceur-de-rayons_autogen/include/ui_mainwindow.h"
-#include <QDebug>
 #include <QFileDialog>
 #include <iostream>
 #include <fstream>
@@ -312,9 +310,6 @@ void MainWindow::sceneObjectSelected(const QModelIndex &index) {
 
 void MainWindow::materialSelected(const QModelIndex &index) {
     QStandardItem *item = materialViewModel->itemFromIndex(index);
-
-    qDebug() << "alpha (from window) :" << item->data().value<Material*>()->alpha;
-
     Material *mat = lastMaterialSelected = item->data().value<Material*>();
     lastElementSelected = MATERIAL;
     PropertiesEditorWidget *newPropertiesEditor = new MaterialPropertiesWidget(mat, this);
