@@ -4,6 +4,8 @@
 FloatEdit::FloatEdit(QWidget *parent) : QLineEdit(parent)
 {
     QDoubleValidator *validator = new QDoubleValidator();
+    validator->setNotation(QDoubleValidator::StandardNotation);
+    validator->setLocale(QLocale::English);
     setValidator(validator);
 }
 
