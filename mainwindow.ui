@@ -147,6 +147,7 @@
     <addaction name="actionDelete_Object"/>
     <addaction name="separator"/>
     <addaction name="actionNew_Material"/>
+    <addaction name="actionDelete_Material"/>
     <addaction name="separator"/>
     <addaction name="actionRender"/>
    </widget>
@@ -279,6 +280,11 @@
   <action name="actionNew_Material">
    <property name="text">
     <string>New Material</string>
+   </property>
+  </action>
+  <action name="actionDelete_Material">
+   <property name="text">
+    <string>Delete Material</string>
    </property>
   </action>
  </widget>

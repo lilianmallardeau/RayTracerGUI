@@ -33,9 +33,7 @@ private:
 
     // RTX
     Scene* scene = nullptr;
-
-    /** Materials */
-    std::list<Material> materials;
+    QList<Material*> materials = QList<Material*>();
 
 public slots:
     void newScene();
@@ -44,8 +42,10 @@ public slots:
     void newPlane();
     void newQuad();
     void newCube();
+    void newMaterial();
 
     void BuildTreeViewModel(); // Call when object is added / removed
+    void BuildMaterialViewModel();
     void renderPreview(); // Call when object transform / material is modified
     void renderScene();
 
@@ -60,6 +60,7 @@ public slots:
 signals:
     void sceneModified();
     void objectModified();
+    void materialIsModified();
 
 };
 #endif // MAINWINDOW_H

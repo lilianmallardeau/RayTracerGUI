@@ -3,5 +3,6 @@
 
 <qresource>
     <file alias="icon.jpg">Assets/icon.jpg</file>
+    <file alias="icon_rbg.png">Assets/icon_rbg.png</file>
 </qresource>
 </RCC>

@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
     MainWindow window;
-    window.setWindowIcon(QIcon(":/icon.jpg"));
+    window.setWindowIcon(QIcon(":/icon_rbg.png"));
     window.show();
     return app.exec();
 }
