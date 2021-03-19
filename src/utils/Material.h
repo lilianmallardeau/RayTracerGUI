@@ -46,5 +46,6 @@ class Material : public Serializable {
 };
 
 Q_DECLARE_METATYPE(Material);
+Q_DECLARE_METATYPE(Material*);
 
 #endif //RAYTRACER_MATERIAL_H

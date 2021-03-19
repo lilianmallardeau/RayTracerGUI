@@ -34,3 +34,9 @@ void VectorEntryWidget::slotVectorModified() {
 Vector3D VectorEntryWidget::toVector() {
     return Vector3D(x->text().toFloat(), y->text().toFloat(), z->text().toFloat());
 }
+
+void VectorEntryWidget::setPlaceholders(QString x_placeholder, QString y_placeholder, QString z_placeholder) {
+    x->setPlaceholderText(x_placeholder);
+    y->setPlaceholderText(y_placeholder);
+    z->setPlaceholderText(z_placeholder);
+}

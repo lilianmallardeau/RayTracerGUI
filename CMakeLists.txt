@@ -96,7 +96,7 @@ set(PROJECT_SOURCES
         qtCustomType/qsceneobject.h
         qtCustomType/qsceneobject.cpp
         resources.qrc
-)
+        widgets/MaterialPropertiesWidget.cpp widgets/MaterialPropertiesWidget.h)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(lanceur-de-rayons

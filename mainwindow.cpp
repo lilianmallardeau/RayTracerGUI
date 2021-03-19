@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(this, SIGNAL(objectModified()), this, SLOT(renderPreview()));
 #endif
     connect(this, SIGNAL(materialModified()), this, SLOT(BuildMaterialViewModel()));
+    connect(this, SIGNAL(materialModified()), this, SIGNAL(objectModified()));
     connect(ui->SceneList, SIGNAL(clicked(QModelIndex)), this, SLOT(sceneObjectSelected(QModelIndex))); // Signal emited when selecting item in tree view
     connect(ui->MaterialList, SIGNAL(clicked(QModelIndex)), this, SLOT(materialSelected(QModelIndex)));
 
@@ -147,7 +148,7 @@ void MainWindow::BuildMaterialViewModel() {
     materialViewModel->clear();
     for (Material *mat : materials) {
         QStandardItem *item = new QStandardItem(QString::fromStdString(mat->name));
-        item->setData(QVariant::fromValue<Material>(*mat));
+        item->setData(QVariant::fromValue<Material*>(mat));
         materialViewModel->appendRow(item);
     }
 }
@@ -277,11 +278,11 @@ void MainWindow::sceneObjectSelected(const QModelIndex &index) {
 
 void MainWindow::materialSelected(const QModelIndex &index) {
     QStandardItem *item = materialViewModel->itemFromIndex(index);
-    Material mat = item->data().value<Material>();
+    Material *mat = item->data().value<Material*>();
     PropertiesEditorWidget *newPropertiesEditor = new MaterialPropertiesWidget(mat, this);
-    connect(newPropertiesEditor, SIGNAL(materialModified()), this, SIGNAL(materialModified()));
+    connect(newPropertiesEditor, SIGNAL(objectModified()), this, SIGNAL(materialModified()));
     if (propertiesEditor == nullptr)
-        ui->EditorLayout->replaceWidget(ui->blankWidget, newPropertiesEditor = newPropertiesEditor);
+        ui->EditorLayout->replaceWidget(ui->blankWidget, propertiesEditor = newPropertiesEditor);
     else {
         ui->EditorLayout->replaceWidget(propertiesEditor, newPropertiesEditor);
         delete propertiesEditor;
