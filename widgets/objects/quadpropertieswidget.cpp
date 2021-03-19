@@ -28,18 +28,7 @@ void QuadPropertiesWidget::updateObject() {
 }
 
 void QuadPropertiesWidget::updateObjectMaterial(int index) {
-    // FIXME PROBLEM = DATA IS INVALID. On peut accéder à l'item, la combobox materials n'est pas vide, mais le data est systématiquement invalid
-    qDebug() << "Index - materials->currentIndex : " << index - materials->currentIndex();
-    qDebug() << "materials->currentData : " << materials->currentData();
-    qDebug() << "materials->itemData(idnex) : " << materials->itemData(materials->currentIndex());
-    if (materials->currentData() == QVariant())
-        qDebug() << "aled";
-    else {
-        qDebug() << materials->itemData(index).value<Material *>()->alpha;
-        qDebug() << "alpha (from editor) : " << materials->currentData().value<Material *>()->alpha;
-    }
-
-    //obj->material = *(materials->itemData(index).value<Material*>());
+    // FIXME material stored not as  pointer, so updating material doesn't update scene
+    obj->material = *(qobject_cast<QStandardItemModel *>(materials->model())->item(index)->data().value<Material *>());
     emit objectModified();
-    // TODO get material data from model and apply to object
 }
