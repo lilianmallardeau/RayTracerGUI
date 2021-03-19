@@ -59,12 +59,12 @@ public slots:
 
     void updatePropertiesEditorWidget();
     void sceneObjectSelected(const QModelIndex &index);
-    void testListView(const QModelIndex &index);
+    void materialSelected(const QModelIndex &index);
 
 signals:
     void sceneModified();
     void objectModified();
-    void materialIsModified();
+    void materialModified();
 
 };
 #endif // MAINWINDOW_H

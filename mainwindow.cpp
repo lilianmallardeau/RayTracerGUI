@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(this, SIGNAL(objectModified()), this, SLOT(launchThreadedRenderPreview()));
     connect(this, SIGNAL(materialModified()), this, SLOT(BuildMaterialViewModel()));
     connect(ui->SceneList, SIGNAL(clicked(QModelIndex)), this, SLOT(sceneObjectSelected(QModelIndex))); // Signal emited when selecting item in tree view
-    connect(ui->MaterialList, SIGNAL(clicked(QModelIndex)), this, SLOT(testListView(QModelIndex)));
+    connect(ui->MaterialList, SIGNAL(clicked(QModelIndex)), this, SLOT(materialSelected(QModelIndex)));
 
     // New object actions
     connect(ui->actionNewScene, SIGNAL(triggered()), this, SLOT(newScene()));
@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->actionNewSphere, SIGNAL(triggered()), this, SLOT(newSphere()));
     connect(ui->actionNewPlane, SIGNAL(triggered()), this, SLOT(newPlane()));
     connect(ui->actionNewQuad, SIGNAL(triggered()), this, SLOT(newQuad()));
+    connect(ui->actionNew_Material, SIGNAL(triggered()), this, SLOT(newMaterial()));
 
     // Menu items
     connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(openSavedScene()));
@@ -52,12 +53,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->MaterialList->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->MaterialList->setHeaderHidden(true);
     ui->MaterialList->setModel(materialViewModel);
-    QStandardItem *item = new QStandardItem("chose");
-    Material mat(Color(36));
-    mat.name = "chose";
-    item->setData(QVariant::fromValue<Material>(mat));
-    materials.append(&mat);
-    materialViewModel->appendRow(item);
 
     // Set splitter disposition
     QList<int> Sizes;
@@ -111,8 +106,7 @@ void MainWindow::newMaterial() {
     Material* mat = new Material();
     mat->name = "New Material";
     materials.append(mat);
-    qDebug() << materials;
-    emit materialIsModified();
+    emit materialModified();
     emit sceneModified(); // TODO emit only if material is assigned in scene
 }
 
@@ -272,7 +266,17 @@ void MainWindow::sceneObjectSelected(const QModelIndex &index) {
     }
 }
 
-void MainWindow::testListView(const QModelIndex &index) {
+void MainWindow::materialSelected(const QModelIndex &index) {
     QStandardItem *item = materialViewModel->itemFromIndex(index);
-    qDebug() << QString::fromStdString(item->data().value<Material>().name);
+    Material mat = item->data().value<Material>();
+    PropertiesEditorWidget *newPropertiesEditor = new MaterialPropertiesWidget(mat, this);
+    connect(newPropertiesEditor, SIGNAL(materialModified()), this, SIGNAL(materialModified()));
+    if (propertiesEditor == nullptr)
+        ui->EditorLayout->replaceWidget(ui->blankWidget, newPropertiesEditor = newPropertiesEditor);
+    else {
+        ui->EditorLayout->replaceWidget(propertiesEditor, newPropertiesEditor);
+        delete propertiesEditor;
+        propertiesEditor = newPropertiesEditor;
+        ui->EditorLayout->update();
+    }
 }
