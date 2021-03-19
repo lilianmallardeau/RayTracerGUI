@@ -28,6 +28,9 @@ class Plane : public Object {
         Point3D get_intersect(Ray ray) override;
         Vector3D get_normal(Ray ray) override;
 
+        const Vector3D &getNormal() const;
+        void setNormal(Vector3D normal);
+
         json toJSON() override;
 };
 

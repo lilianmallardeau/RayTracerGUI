@@ -25,7 +25,7 @@ public:
 private:
     // GUI
     Ui::MainWindow *ui;
-    PropertiesEditorWidget *propertiesEditor;
+    PropertiesEditorWidget *propertiesEditor = nullptr;
     QStandardItemModel* sceneTreeViewModel;
     QStringListModel* materialViewModel;
     int defaultWidth = 720, defaultHeight = 480;
@@ -54,7 +54,7 @@ public slots:
     void openSavedScene();
 
     void updatePropertiesEditorWidget();
-    void test(const QModelIndex &index);
+    void sceneObjectSelected(const QModelIndex &index);
 
 signals:
     void sceneModified();

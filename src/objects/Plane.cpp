@@ -29,3 +29,11 @@ json Plane::toJSON() {
     });
     return j;
 }
+
+const Vector3D &Plane::getNormal() const {
+    return normal;
+}
+
+void Plane::setNormal(Vector3D normal) {
+    Plane::normal = normal.normalize();
+}

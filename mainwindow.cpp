@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(this, SIGNAL(sceneModified()), this, SLOT(BuildTreeViewModel()));
     connect(this, SIGNAL(sceneModified()), this, SLOT(renderPreview()));
     connect(this, SIGNAL(objectModified()), this, SLOT(renderPreview()));
-    connect(ui->SceneList, SIGNAL(clicked(QModelIndex)), this, SLOT(test(QModelIndex))); // Signal emited when selecting item in tree view
+    connect(ui->SceneList, SIGNAL(clicked(QModelIndex)), this, SLOT(sceneObjectSelected(QModelIndex))); // Signal emited when selecting item in tree view
 
     // New object actions
     connect(ui->actionNewScene, SIGNAL(triggered()), this, SLOT(newScene()));
@@ -202,10 +202,41 @@ void MainWindow::updatePropertiesEditorWidget() {
 
 }
 
-void MainWindow::test(const QModelIndex &index) {
+void MainWindow::sceneObjectSelected(const QModelIndex &index) {
     QStandardItem *item = sceneTreeViewModel->itemFromIndex(index);
-    qDebug() << item->data().value<QSceneObject>();
-    //qDebug() << item;
-    //CameraPropertiesWidget *popUp = new CameraPropertiesWidget(); // SAMARCHEPAS
-    //popUp->show();
+    QSceneObject sceneObject = item->data().value<QSceneObject>();
+    PropertiesEditorWidget *newPropertiesEditor;
+    switch (sceneObject.type) {
+        case ObjectTyype::CAMERA:
+            newPropertiesEditor = new CameraPropertiesWidget(&scene->camera, this);
+            break;
+        case ObjectTyype::LIGHT:
+            newPropertiesEditor = new LightPropertiesWidget(&scene->light, this);
+            break;
+        case ObjectTyype::OBJECT:
+            switch (sceneObject.obj->type) {
+                case ObjectType::SPHERE:
+                    newPropertiesEditor = new SpherePropertiesWidget((Sphere*) sceneObject.obj, this);
+                    break;
+                case ObjectType::PLANE:
+                    newPropertiesEditor = new PlanePropertiesWidget((Plane*) sceneObject.obj, this);
+                    break;
+                case ObjectType::QUAD:
+                    newPropertiesEditor = new QuadPropertiesWidget((Quad*) sceneObject.obj, this);
+                    break;
+                case ObjectType::CUBE:
+                    newPropertiesEditor = new CubePropertiesWidget((Cube*) sceneObject.obj, this);
+                    break;
+            }
+            break;
+    }
+    connect(newPropertiesEditor, SIGNAL(objectModified()), this, SIGNAL(objectModified()));
+    if (propertiesEditor == nullptr)
+        ui->EditorLayout->replaceWidget(ui->blankWidget, propertiesEditor = newPropertiesEditor);
+    else {
+        ui->EditorLayout->replaceWidget(propertiesEditor, newPropertiesEditor);
+        delete propertiesEditor;
+        propertiesEditor = newPropertiesEditor;
+        ui->EditorLayout->update();
+    }
 }

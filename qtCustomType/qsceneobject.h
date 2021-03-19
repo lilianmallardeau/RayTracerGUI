@@ -25,9 +25,6 @@ public:
     friend QDebug operator<<(QDebug dbg, const QSceneObject &);
 
     ObjectTyype type;
-
-
-private:
     Object *obj = nullptr;
 
 };

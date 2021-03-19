@@ -1,6 +1,7 @@
 #ifndef QUADPROPERTIESWIDGET_H
 #define QUADPROPERTIESWIDGET_H
 
+#include <Quad.h>
 #include "../propertieseditorwidget.h"
 #include "../vectorentrywidget.h"
 #include "../floatedit.h"
@@ -9,12 +10,14 @@ class QuadPropertiesWidget : public PropertiesEditorWidget
 {
     Q_OBJECT
 public:
-    explicit QuadPropertiesWidget(QWidget *parent = nullptr);
+    explicit QuadPropertiesWidget(Quad* quad, QWidget *parent = nullptr);
 
 public:
-    VectorEntryWidget origin, width, height;
+    VectorEntryWidget *origin, *width, *height;
+    Quad* obj;
 
-signals:
+private slots:
+    void updateObject();
 
 };
 

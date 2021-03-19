@@ -14,7 +14,7 @@ protected:
     QFormLayout *layout;
 
 signals:
-
+    void objectModified();
 };
 
 #endif // PROPERTIESEDITORWIDGET_H
