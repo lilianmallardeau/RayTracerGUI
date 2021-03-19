@@ -6,6 +6,7 @@
 #include "widgets/widgets.h"
 
 #include <QApplication>
+#include <QIcon>
 
 int main(int argc, char *argv[])
 {
@@ -50,6 +51,7 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
     MainWindow window;
+    window.setWindowIcon(QIcon(":/icon.jpg"));
     window.show();
     return app.exec();
 }

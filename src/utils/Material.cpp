@@ -11,6 +11,7 @@ std::ostream &operator<<(std::ostream & os, const Material & mat) {
 
 json Material::toJSON() {
     return {
+        {"name", name},
         {"color", color.toJSON()},
         {"shininess", shininess},
         {"alpha", alpha},

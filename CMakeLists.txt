@@ -93,6 +93,7 @@ set(PROJECT_SOURCES
         widgets/widgets.h
         qtCustomType/qsceneobject.h
         qtCustomType/qsceneobject.cpp
+        resources.qrc
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

@@ -7,9 +7,12 @@
 
 #include "Serializable.h"
 #include "Color.h"
+#include <QMetaType>
 
 class Material : public Serializable {
     public:
+        std::string name;
+
         /** The color of the object */
         Color color;
 
@@ -27,6 +30,7 @@ class Material : public Serializable {
         Material(unsigned char c, float shininess) : Material(Color(c), shininess) {};
         Material() : Material(Color(255)) {};
         Material(json j) : Material(Color(j["color"]), j["shininess"]) {
+            name = j["name"];
             alpha = j["alpha"];
             Ka = j["Ka"];
             Kd = j["Kd"];
@@ -41,5 +45,6 @@ class Material : public Serializable {
         json toJSON() override;
 };
 
+Q_DECLARE_METATYPE(Material);
 
 #endif //RAYTRACER_MATERIAL_H

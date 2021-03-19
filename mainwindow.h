@@ -27,7 +27,7 @@ private:
     Ui::MainWindow *ui;
     PropertiesEditorWidget *propertiesEditor = nullptr;
     QStandardItemModel* sceneTreeViewModel;
-    QStringListModel* materialViewModel;
+    QStandardItemModel* materialViewModel;
     int defaultWidth = 720, defaultHeight = 480;
     QString currentFileName = nullptr;
 
@@ -55,6 +55,7 @@ public slots:
 
     void updatePropertiesEditorWidget();
     void sceneObjectSelected(const QModelIndex &index);
+    void testListView(const QModelIndex &index);
 
 signals:
     void sceneModified();
