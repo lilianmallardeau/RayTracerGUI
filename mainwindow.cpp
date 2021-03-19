@@ -1,3 +1,5 @@
+#define ENABLE_PARALLEL_PREVIEW_RENDERING 0
+
 #include "mainwindow.h"
 #include "../build-RayTracerGUI-Desktop_Qt_5_15_2_GCC_64bit-Debug/lanceur-de-rayons_autogen/include/ui_mainwindow.h"
 #include <QDebug>
@@ -16,8 +18,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     /*********************** Connection signal / slot ***********************/
     // Updating GUI
     connect(this, SIGNAL(sceneModified()), this, SLOT(BuildTreeViewModel()));
+#if ENABLE_PARALLEL_PREVIEW_RENDERING == 1
     connect(this, SIGNAL(sceneModified()), this, SLOT(launchThreadedRenderPreview()));
     connect(this, SIGNAL(objectModified()), this, SLOT(launchThreadedRenderPreview()));
+#else
+    connect(this, SIGNAL(sceneModified()), this, SLOT(renderPreview()));
+    connect(this, SIGNAL(objectModified()), this, SLOT(renderPreview()));
+#endif
     connect(this, SIGNAL(materialModified()), this, SLOT(BuildMaterialViewModel()));
     connect(ui->SceneList, SIGNAL(clicked(QModelIndex)), this, SLOT(sceneObjectSelected(QModelIndex))); // Signal emited when selecting item in tree view
     connect(ui->MaterialList, SIGNAL(clicked(QModelIndex)), this, SLOT(materialSelected(QModelIndex)));
