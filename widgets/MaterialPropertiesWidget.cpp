@@ -7,7 +7,6 @@
 MaterialPropertiesWidget::MaterialPropertiesWidget(Material *material, QWidget *parent) : PropertiesEditorWidget(parent)
 {
     this->material = material;
-    // FIXME put Qt color picker
     colorDialog = new QColorDialog();
     //colorDialog->setOption(QColorDialog::ShowAlphaChannel);
     setColorButton = new QPushButton("Set color");
@@ -18,11 +17,13 @@ MaterialPropertiesWidget::MaterialPropertiesWidget(Material *material, QWidget *
     else
         connect(colorDialog, SIGNAL(colorSelected(const QColor &)), this, SLOT(updateObject(const QColor &)));
 
+    name = new QLineEdit(QString::fromStdString(material->name));
     shininess = new FloatEdit(material->shininess);
     alpha = new FloatEdit(material->alpha);
     Ka = new FloatEdit(material->Ka);
     Kd = new FloatEdit(material->Kd);
     Ks = new FloatEdit(material->Ks);
+    layout->addRow("Material name", name);
     layout->addRow("Color", setColorButton);
     layout->addRow("Shininess", shininess);
     layout->addRow("alpha", alpha);
@@ -30,6 +31,7 @@ MaterialPropertiesWidget::MaterialPropertiesWidget(Material *material, QWidget *
     layout->addRow("Kd", Kd);
     layout->addRow("Ks", Ks);
 
+    connect(name, SIGNAL(editingFinished()), this, SLOT(updateObject()));
     connect(shininess, SIGNAL(editingFinished()), this, SLOT(updateObject()));
     connect(alpha, SIGNAL(editingFinished()), this, SLOT(updateObject()));
     connect(Ka, SIGNAL(editingFinished()), this, SLOT(updateObject()));
@@ -40,6 +42,7 @@ MaterialPropertiesWidget::MaterialPropertiesWidget(Material *material, QWidget *
 }
 
 void MaterialPropertiesWidget::updateObject(const QColor & color) {
+    material->name = name->text().toStdString();
     if (color != nullptr)
         color.getRgb(reinterpret_cast<int *>(&material->color.r),
                  reinterpret_cast<int *>(&material->color.g),
