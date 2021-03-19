@@ -18,6 +18,10 @@ CubePropertiesWidget::CubePropertiesWidget(Cube* cube, QWidget *parent) : Proper
     connect(length, SIGNAL(modified(Vector3D)), this, SLOT(updateObject()));
 }
 
+void CubePropertiesWidget::updateMaterials(QStandardItemModel *materialModel) {
+    materials->setModel(materialModel);
+}
+
 void CubePropertiesWidget::updateObject() {
     obj->origin = origin->toVector();
     obj->width = width->toVector();

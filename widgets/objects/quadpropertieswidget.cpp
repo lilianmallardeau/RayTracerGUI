@@ -15,6 +15,10 @@ QuadPropertiesWidget::QuadPropertiesWidget(Quad* quad, QWidget *parent) : Proper
     connect(height, SIGNAL(modified(Vector3D)), this, SLOT(updateObject()));
 }
 
+void QuadPropertiesWidget::updateMaterials(QStandardItemModel *materialModel) {
+    materials->setModel(materialModel);
+}
+
 void QuadPropertiesWidget::updateObject() {
     obj->origin = origin->toVector();
     obj->width = width->toVector();

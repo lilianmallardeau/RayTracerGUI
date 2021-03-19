@@ -64,8 +64,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // Set splitter disposition
     QList<int> Sizes;
-    Sizes.append(0.15 * height());
-    Sizes.append(0.85 * height());
+    Sizes.append(0.2 * height());
+    Sizes.append(0.8 * height());
     ui->splitter->setSizes(Sizes);
 
     this->showMaximized();
@@ -252,6 +252,7 @@ void MainWindow::sceneObjectSelected(const QModelIndex &index) {
             switch (sceneObject.obj->type) {
                 case ObjectType::SPHERE:
                     newPropertiesEditor = new SpherePropertiesWidget((Sphere*) sceneObject.obj, this);
+                    newPropertiesEditor->updateMaterials(materialViewModel);
                     break;
                 case ObjectType::PLANE:
                     newPropertiesEditor = new PlanePropertiesWidget((Plane*) sceneObject.obj, this);

@@ -12,6 +12,10 @@ PlanePropertiesWidget::PlanePropertiesWidget(Plane* plane, QWidget *parent) : Pr
     connect(normal, SIGNAL(modified(Vector3D)), this, SLOT(updateObject()));
 }
 
+void PlanePropertiesWidget::updateMaterials(QStandardItemModel *materialModel) {
+    materials->setModel(materialModel);
+}
+
 void PlanePropertiesWidget::updateObject() {
     obj->point = point->toVector();
     obj->setNormal(normal->toVector());
