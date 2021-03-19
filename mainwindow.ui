@@ -160,6 +160,13 @@
    </attribute>
    <addaction name="actionSave"/>
    <addaction name="actionRender"/>
+   <addaction name="separator"/>
+   <addaction name="actionNewSphere"/>
+   <addaction name="actionNewPlane"/>
+   <addaction name="actionNewQuad"/>
+   <addaction name="actionNewCube"/>
+   <addaction name="separator"/>
+   <addaction name="actionNew_Material"/>
   </widget>
   <action name="actionNewScene">
    <property name="text">
