@@ -150,6 +150,7 @@ void MainWindow::BuildMaterialViewModel() {
     materialViewModel->clear();
     for (Material *mat : materials) {
         QStandardItem *item = new QStandardItem(QString::fromStdString(mat->name));
+        //item->setData(QVariant::fromValue<float>(mat->alpha));
         item->setData(QVariant::fromValue<Material*>(mat));
         materialViewModel->appendRow(item);
     }
@@ -319,8 +320,11 @@ void MainWindow::sceneObjectSelected(const QModelIndex &index) {
 
 void MainWindow::materialSelected(const QModelIndex &index) {
     QStandardItem *item = materialViewModel->itemFromIndex(index);
+
+    qDebug() << "alpha (from window) :" << item->data().value<Material*>()->alpha;
+
     Material *mat = item->data().value<Material*>();
-    PropertiesEditorWidget *newPropertiesEditor = new MaterialPropertiesWidget(mat, materialViewModel, this);
+    PropertiesEditorWidget *newPropertiesEditor = new MaterialPropertiesWidget(mat, this);
     connect(newPropertiesEditor, SIGNAL(objectModified()), this, SIGNAL(materialModified()));
     if (propertiesEditor == nullptr)
         ui->EditorLayout->replaceWidget(ui->blankWidget, propertiesEditor = newPropertiesEditor);

@@ -16,7 +16,7 @@ class MaterialPropertiesWidget : public PropertiesEditorWidget
 {
     Q_OBJECT
 public:
-    explicit MaterialPropertiesWidget(Material* material, QStandardItemModel *materialModel, QWidget *parent = nullptr);
+    explicit MaterialPropertiesWidget(Material* material, QWidget *parent = nullptr);
 
 private:
     bool autoUpdateOnSelect = false;

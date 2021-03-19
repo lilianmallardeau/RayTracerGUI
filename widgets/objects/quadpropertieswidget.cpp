@@ -8,7 +8,7 @@ QuadPropertiesWidget::QuadPropertiesWidget(Quad* quad, QStandardItemModel *mater
     width = new VectorEntryWidget(quad->width);
     height = new VectorEntryWidget(quad->height);
     materials = new QComboBox(this);
-    materials->setModel(materialModel);
+    materials->setModel(this->materialModel);
     layout->addRow("Origin", origin);
     layout->addRow("Width", width);
     layout->addRow("Height", height);
@@ -28,11 +28,10 @@ void QuadPropertiesWidget::updateObject() {
 }
 
 void QuadPropertiesWidget::updateObjectMaterial(int index) {
-    materials->setCurrentIndex(index);
     if (materials->currentData() == QVariant())
         qDebug() << "aled";
     else
-        qDebug() << "alpha : " << materials->currentData().value<Material*>()->alpha;
+        qDebug() << "alpha (from editor) : " << materials->currentData().value<Material*>()->alpha;
 
     //obj->material = *(materials->itemData(index).value<Material*>());
     emit objectModified();

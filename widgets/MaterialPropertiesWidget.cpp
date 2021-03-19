@@ -4,7 +4,7 @@
 
 #include "MaterialPropertiesWidget.h"
 
-MaterialPropertiesWidget::MaterialPropertiesWidget(Material *material, QStandardItemModel *materialModel, QWidget *parent) : PropertiesEditorWidget(parent, materialModel)
+MaterialPropertiesWidget::MaterialPropertiesWidget(Material *material, QWidget *parent) : PropertiesEditorWidget(parent)
 {
     this->material = material;
     // FIXME put Qt color picker
