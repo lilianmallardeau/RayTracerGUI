@@ -14,7 +14,7 @@ void Scene::render(int width, int height, std::string filename) {
     png::image<png::rgb_pixel> image(width, height);
 
     for (int y = 0; y < height; y++) {
-        if (!(y % 10)) printf("Processing line %d/%d...\n", y, height);
+        //if (!(y % 10)) printf("Processing line %d/%d...\n", y, height);
         for (int x = 0; x < width; x++) {
             float width_ratio = (float) x/width;
             float height_ratio = (float) y/height;

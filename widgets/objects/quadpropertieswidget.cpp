@@ -1,4 +1,5 @@
 #include "quadpropertieswidget.h"
+#include <QDebug>
 
 QuadPropertiesWidget::QuadPropertiesWidget(Quad* quad, QStandardItemModel *materialModel, QWidget *parent) : PropertiesEditorWidget(parent, materialModel)
 {
@@ -27,5 +28,13 @@ void QuadPropertiesWidget::updateObject() {
 }
 
 void QuadPropertiesWidget::updateObjectMaterial(int index) {
+    materials->setCurrentIndex(index);
+    if (materials->currentData() == QVariant())
+        qDebug() << "aled";
+    else
+        qDebug() << "alpha : " << materials->currentData().value<Material*>()->alpha;
+
+    //obj->material = *(materials->itemData(index).value<Material*>());
+    emit objectModified();
     // TODO get material data from model and apply to object
 }
