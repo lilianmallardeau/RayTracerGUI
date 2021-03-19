@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 #endif
     connect(this, SIGNAL(materialModified()), this, SLOT(BuildMaterialViewModel()));
     connect(this, SIGNAL(materialModified()), this, SIGNAL(objectModified()));
-    connect(ui->SceneList, SIGNAL(clicked(QModelIndex)), this, SLOT(sceneObjectSelected(QModelIndex))); // Signal emited when selecting item in tree view
+    connect(ui->SceneList, SIGNAL(clicked(QModelIndex)), this, SLOT(sceneObjectSelected(QModelIndex))); // Signal emitted when selecting item in tree view
     connect(ui->MaterialList, SIGNAL(clicked(QModelIndex)), this, SLOT(materialSelected(QModelIndex)));
 
     // New object actions
@@ -157,9 +157,11 @@ void MainWindow::BuildMaterialViewModel() {
 }
 
 void MainWindow::renderPreview() {
+    QString previewFilePath = QDir::tempPath() + "/raytracer_preview_display.png";
     statusBar()->showMessage("Rendering preview...");
-    scene->render(defaultWidth, defaultHeight, "display.png");
-    ui->PicturePreview->setPixmap(QPixmap("display.png"));
+    scene->render(defaultWidth, defaultHeight, previewFilePath.toStdString());
+    ui->PicturePreview->setPixmap(QPixmap(previewFilePath));
+    QFile::remove(previewFilePath);
     statusBar()->clearMessage();
 }
 
@@ -203,19 +205,6 @@ void MainWindow::saveSceneAs() {
             this->setWindowTitle(QString(currentFileName));
         }
     }
-
-//    Deprecated because nul
-
-//    QFileDialog *dialog = new QFileDialog();
-//    dialog->setFileMode(QFileDialog::AnyFile);
-//    dialog->show();
-
-//    if (dialog->exec()) {
-//        QString filename = dialog->selectedFiles().at(0);
-//        std::ofstream file(filename.toStdString());
-//        file << std::setw(4) << scene->toJSON();
-//        file.close();
-//    }
 }
 
 void MainWindow::openSavedScene() {
@@ -273,10 +262,6 @@ void MainWindow::importMaterials() {
         }
         emit BuildMaterialViewModel();
     }
-}
-
-void MainWindow::updatePropertiesEditorWidget() {
-
 }
 
 void MainWindow::sceneObjectSelected(const QModelIndex &index) {

@@ -69,7 +69,6 @@ public slots:
     void exportMaterials();
     void importMaterials();
 
-    void updatePropertiesEditorWidget();
     void sceneObjectSelected(const QModelIndex &index);
     void materialSelected(const QModelIndex &index);
 
