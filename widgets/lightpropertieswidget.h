@@ -1,6 +1,7 @@
 #ifndef LIGHTPROPERTIESWIDGET_H
 #define LIGHTPROPERTIESWIDGET_H
 
+#include <Light.h>
 #include "propertieseditorwidget.h"
 #include "vectorentrywidget.h"
 #include "floatedit.h"
@@ -9,13 +10,15 @@ class LightPropertiesWidget : public PropertiesEditorWidget
 {
     Q_OBJECT
 public:
-    explicit LightPropertiesWidget(QWidget *parent = nullptr);
+    explicit LightPropertiesWidget(Light* light, QWidget *parent = nullptr);
 
 private:
-    VectorEntryWidget position;
-    FloatEdit intensity;
+    VectorEntryWidget* position;
+    FloatEdit* intensity;
+    Light* light;
 
-signals:
+private slots:
+    void updateObject();
 
 };
 

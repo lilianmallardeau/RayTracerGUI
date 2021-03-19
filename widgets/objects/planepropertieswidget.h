@@ -1,6 +1,7 @@
 #ifndef PLANEPROPERTIESWIDGET_H
 #define PLANEPROPERTIESWIDGET_H
 
+#include <Plane.h>
 #include "../propertieseditorwidget.h"
 #include "../vectorentrywidget.h"
 #include "../floatedit.h"
@@ -9,12 +10,14 @@ class PlanePropertiesWidget : public PropertiesEditorWidget
 {
     Q_OBJECT
 public:
-    explicit PlanePropertiesWidget(QWidget *parent = nullptr);
+    explicit PlanePropertiesWidget(Plane* plane, QWidget *parent = nullptr);
 
 private:
-    VectorEntryWidget point, normal;
+    VectorEntryWidget *point, *normal;
+    Plane* obj;
 
-signals:
+private slots:
+    void updateObject();
 
 };
 

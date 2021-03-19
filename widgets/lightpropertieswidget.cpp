@@ -1,7 +1,19 @@
 #include "lightpropertieswidget.h"
 
-LightPropertiesWidget::LightPropertiesWidget(QWidget *parent) : PropertiesEditorWidget(parent)
+LightPropertiesWidget::LightPropertiesWidget(Light* light, QWidget *parent) : PropertiesEditorWidget(parent)
 {
-    layout->addRow("Position", &position);
-    layout->addRow("Intensity", &intensity);
+    this->light = light;
+    position = new VectorEntryWidget(light->position);
+    intensity = new FloatEdit(light->intensity);
+    layout->addRow("Position", position);
+    layout->addRow("Intensity", intensity);
+
+    connect(position, SIGNAL(modified(Vector3D)), this, SLOT(updateObject()));
+    connect(intensity, SIGNAL(editingFinished()), this, SLOT(updateObject()));
+}
+
+void LightPropertiesWidget::updateObject() {
+    light->position = position->toVector();
+    light->intensity = intensity->getValue();
+    emit objectModified();
 }

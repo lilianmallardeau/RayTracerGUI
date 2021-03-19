@@ -12,7 +12,7 @@ class VectorEntryWidget : public QWidget
     Q_OBJECT
 public:
     explicit VectorEntryWidget(QWidget *parent = nullptr);
-    explicit VectorEntryWidget(Vector3D v, QWidget *parent);
+    explicit VectorEntryWidget(Vector3D v, QWidget *parent = nullptr);
 
     Vector3D toVector();
 
