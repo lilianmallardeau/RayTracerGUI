@@ -44,8 +44,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->actionSave_As, SIGNAL(triggered()), this, SLOT(saveSceneAs()));
     connect(ui->actionQuit, SIGNAL(triggered()), QApplication::instance(), SLOT(quit()));
     connect(ui->actionRender, SIGNAL(triggered()), this, SLOT(renderScene()));
-    connect(ui->actionExportMaterials, SIGNAL(triggered(bool)), this, SLOT(exportMaterials()));
-    connect(ui->actionImportMaterials, SIGNAL(triggered(bool)), this, SLOT(importMaterials()));
+    connect(ui->actionExportMaterials, SIGNAL(triggered()), this, SLOT(exportMaterials()));
+    connect(ui->actionImportMaterials, SIGNAL(triggered()), this, SLOT(importMaterials()));
+    connect(ui->actionDeleteItem, SIGNAL(triggered()), this, SLOT(deleteSelectedElement()));
 
 
     /*********************** Scene & material views ***********************/
@@ -285,11 +286,15 @@ void MainWindow::sceneObjectSelected(const QModelIndex &index) {
     switch (sceneObject.type) {
         case ObjectTyype::CAMERA:
             newPropertiesEditor = new CameraPropertiesWidget(&scene->camera, this);
+            lastElementSelected = NONE;
             break;
         case ObjectTyype::LIGHT:
             newPropertiesEditor = new LightPropertiesWidget(&scene->light, this);
+            lastElementSelected = NONE;
             break;
         case ObjectTyype::OBJECT:
+            lastElementSelected = SCENE_OBJECT;
+            lastObjectSelected = sceneObject.obj;
             switch (sceneObject.obj->type) {
                 case ObjectType::SPHERE:
                     newPropertiesEditor = new SpherePropertiesWidget((Sphere*) sceneObject.obj, materialViewModel, this);
@@ -303,6 +308,8 @@ void MainWindow::sceneObjectSelected(const QModelIndex &index) {
                 case ObjectType::CUBE:
                     newPropertiesEditor = new CubePropertiesWidget((Cube*) sceneObject.obj, materialViewModel, this);
                     break;
+                default:
+                    lastElementSelected = NONE;
             }
             connect(newPropertiesEditor, SIGNAL(objectNameChanged()), this, SLOT(BuildTreeViewModel()));
             break;
@@ -323,7 +330,8 @@ void MainWindow::materialSelected(const QModelIndex &index) {
 
     qDebug() << "alpha (from window) :" << item->data().value<Material*>()->alpha;
 
-    Material *mat = item->data().value<Material*>();
+    Material *mat = lastMaterialSelected = item->data().value<Material*>();
+    lastElementSelected = MATERIAL;
     PropertiesEditorWidget *newPropertiesEditor = new MaterialPropertiesWidget(mat, this);
     connect(newPropertiesEditor, SIGNAL(objectModified()), this, SIGNAL(materialModified()));
     if (propertiesEditor == nullptr)
@@ -333,5 +341,24 @@ void MainWindow::materialSelected(const QModelIndex &index) {
         delete propertiesEditor;
         propertiesEditor = newPropertiesEditor;
         ui->EditorLayout->update();
+    }
+}
+
+void MainWindow::deleteSelectedElement() {
+    switch (lastElementSelected) {
+        case SCENE_OBJECT:
+            if (lastObjectSelected != nullptr) {
+                scene->objects.remove(lastObjectSelected);
+                emit sceneModified();
+                lastElementSelected = NONE;
+            }
+            break;
+        case MATERIAL:
+            if (lastMaterialSelected != nullptr) {
+                materials.removeAll(lastMaterialSelected);
+                BuildMaterialViewModel();
+                lastElementSelected = NONE;
+            }
+            break;
     }
 }

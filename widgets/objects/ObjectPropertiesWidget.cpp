@@ -14,7 +14,7 @@ ObjectPropertiesWidget::ObjectPropertiesWidget(Object* obj, QStandardItemModel *
     layout->addRow("Material", material);
 
     connect(name, SIGNAL(editingFinished()), this, SLOT(updateObjectName()));
-    connect(material, SIGNAL(currentIndexChanged(int)), this, SLOT(updateObjectMaterial(int)));
+    connect(material, SIGNAL(activated(int)), this, SLOT(updateObjectMaterial(int)));
 }
 
 void ObjectPropertiesWidget::updateObjectName() {

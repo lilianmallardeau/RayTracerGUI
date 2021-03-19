@@ -144,12 +144,12 @@
      <addaction name="actionNewCube"/>
     </widget>
     <addaction name="menuNew_Object"/>
-    <addaction name="actionDeleteObject"/>
     <addaction name="separator"/>
     <addaction name="actionNew_Material"/>
-    <addaction name="actionDeleteMaterial"/>
     <addaction name="actionExportMaterials"/>
     <addaction name="actionImportMaterials"/>
+    <addaction name="separator"/>
+    <addaction name="actionDeleteItem"/>
     <addaction name="separator"/>
     <addaction name="actionRender"/>
    </widget>
@@ -239,14 +239,6 @@
     <string>Ctrl+R</string>
    </property>
   </action>
-  <action name="actionDeleteObject">
-   <property name="text">
-    <string>Delete Object</string>
-   </property>
-   <property name="shortcut">
-    <string>Del</string>
-   </property>
-  </action>
   <action name="actionNewSphere">
    <property name="text">
     <string>Sphere</string>
@@ -284,11 +276,6 @@
     <string>New Material</string>
    </property>
   </action>
-  <action name="actionDeleteMaterial">
-   <property name="text">
-    <string>Delete Material</string>
-   </property>
-  </action>
   <action name="actionExportMaterials">
    <property name="text">
     <string>Export Materials</string>
@@ -297,6 +284,14 @@
   <action name="actionImportMaterials">
    <property name="text">
     <string>Import Materials</string>
+   </property>
+  </action>
+  <action name="actionDeleteItem">
+   <property name="text">
+    <string>Delete Selected Item</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
    </property>
   </action>
  </widget>

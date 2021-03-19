@@ -34,6 +34,14 @@ private:
     QString currentFileName = nullptr;
     std::thread* currentPreviewRendering = nullptr;
 
+    Object *lastObjectSelected = nullptr;
+    Material *lastMaterialSelected = nullptr;
+    enum {
+        SCENE_OBJECT,
+        MATERIAL,
+        NONE
+    } lastElementSelected = NONE;
+
     // RTX
     Scene* scene = nullptr;
     QList<Material*> materials = QList<Material*>();
@@ -64,6 +72,8 @@ public slots:
     void updatePropertiesEditorWidget();
     void sceneObjectSelected(const QModelIndex &index);
     void materialSelected(const QModelIndex &index);
+
+    void deleteSelectedElement();
 
 signals:
     void sceneModified(); // Rebuild scene treeView and render preview
