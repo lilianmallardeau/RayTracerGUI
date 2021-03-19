@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(this, SIGNAL(sceneModified()), this, SLOT(BuildTreeViewModel()));
     connect(this, SIGNAL(sceneModified()), this, SLOT(launchThreadedRenderPreview()));
     connect(this, SIGNAL(objectModified()), this, SLOT(launchThreadedRenderPreview()));
+    connect(this, SIGNAL(materialModified()), this, SLOT(BuildMaterialViewModel()));
     connect(ui->SceneList, SIGNAL(clicked(QModelIndex)), this, SLOT(sceneObjectSelected(QModelIndex))); // Signal emited when selecting item in tree view
     connect(ui->MaterialList, SIGNAL(clicked(QModelIndex)), this, SLOT(testListView(QModelIndex)));
 
@@ -41,6 +42,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->SceneList->setEditTriggers(QAbstractItemView::NoEditTriggers); // TODO remove this
     ui->SceneList->setHeaderHidden(true);
     ui->SceneList->setModel(sceneTreeViewModel);
+    // Actually so sad, drag & drop = much work. Moved to wishlist
+//    ui->SceneList->setDragEnabled(true);
+//    ui->SceneList->viewport()->setAcceptDrops(true);
+//    ui->SceneList->setDropIndicatorShown(true);
+
 
     materialViewModel = new QStandardItemModel();
     ui->MaterialList->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -50,6 +56,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     Material mat(Color(36));
     mat.name = "chose";
     item->setData(QVariant::fromValue<Material>(mat));
+    materials.append(&mat);
     materialViewModel->appendRow(item);
 
     // Set splitter disposition
@@ -100,6 +107,15 @@ void MainWindow::newCube() {
     emit sceneModified();
 }
 
+void MainWindow::newMaterial() {
+    Material* mat = new Material();
+    mat->name = "New Material";
+    materials.append(mat);
+    qDebug() << materials;
+    emit materialIsModified();
+    emit sceneModified(); // TODO emit only if material is assigned in scene
+}
+
 void MainWindow::BuildTreeViewModel() {
     sceneTreeViewModel->clear();
     QStandardItem *sceneItem = new QStandardItem(QIcon("medias/scene.png"), "Scene");
@@ -124,6 +140,15 @@ void MainWindow::BuildTreeViewModel() {
     }
     sceneTreeViewModel->appendRow(sceneItem);
     ui->SceneList->expandAll();
+}
+
+void MainWindow::BuildMaterialViewModel() {
+    materialViewModel->clear();
+    for (Material *mat : materials) {
+        QStandardItem *item = new QStandardItem(QString::fromStdString(mat->name));
+        item->setData(QVariant::fromValue<Material>(*mat));
+        materialViewModel->appendRow(item);
+    }
 }
 
 void MainWindow::renderPreview() {
@@ -251,4 +276,3 @@ void MainWindow::testListView(const QModelIndex &index) {
     QStandardItem *item = materialViewModel->itemFromIndex(index);
     qDebug() << QString::fromStdString(item->data().value<Material>().name);
 }
-
