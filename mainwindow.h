@@ -31,7 +31,7 @@ private:
     QStandardItemModel* materialViewModel;
     int defaultWidth = 720, defaultHeight = 480;
     QString currentFileName = nullptr;
-    std::thread* currentPreviewRendering;
+    std::thread* currentPreviewRendering = nullptr;
 
     // RTX
     Scene* scene = nullptr;

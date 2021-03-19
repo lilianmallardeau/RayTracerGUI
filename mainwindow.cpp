@@ -1,4 +1,4 @@
-#define ENABLE_PARALLEL_PREVIEW_RENDERING 0
+#define ENABLE_PARALLEL_PREVIEW_RENDERING 1
 
 #include "mainwindow.h"
 #include "../build-RayTracerGUI-Desktop_Qt_5_15_2_GCC_64bit-Debug/lanceur-de-rayons_autogen/include/ui_mainwindow.h"
@@ -158,6 +158,8 @@ void MainWindow::renderPreview() {
 }
 
 void MainWindow::launchThreadedRenderPreview() {
+    if (currentPreviewRendering != nullptr)
+        currentPreviewRendering->join();
     currentPreviewRendering = new std::thread(&MainWindow::renderPreview, this);
 }
 
